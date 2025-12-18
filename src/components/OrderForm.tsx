@@ -2,10 +2,9 @@ import { useState } from "react";
 import { toast } from "@/hooks/use-toast";
 
 const dishes = [
-  { id: "plov", name: "Ферганский плов (400г)", price: 450 },
-  { id: "plov-large", name: "Ферганский плов (800г)", price: 850 },
-  { id: "samsa", name: "Самса с мясом (1 шт)", price: 90 },
-  { id: "salad", name: "Морковча (200г)", price: 150 },
+  { id: "plov", name: "Ташкентский плов (1 кг)", price: 30 },
+  { id: "samsa", name: "Самса (мин. 5 шт)", price: 15 },
+  { id: "salad", name: "Морковча (300 г)", price: 5 },
 ];
 
 const OrderForm = () => {
@@ -54,7 +53,7 @@ const OrderForm = () => {
       })
       .join("\n");
 
-    const message = `🍚 Новый заказ!\n\nИмя: ${formData.name}\nТелефон: ${formData.phone}\nАдрес: ${formData.address}\n\nЗаказ:\n${orderItems}\n\nИтого: ${total} ₽\n\nДата: ${formData.date === "friday" ? "Пятница" : "Суббота"}\nВремя: ${formData.time}\n\nКомментарий: ${formData.comment || "—"}`;
+    const message = `🍚 Новый заказ!\n\nИмя: ${formData.name}\nТелефон: ${formData.phone}\nАдрес: ${formData.address}\n\nЗаказ:\n${orderItems}\n\nИтого: ${total} BYN\n\nДата: ${formData.date === "friday" ? "Пятница" : "Суббота"}\n\nКомментарий: ${formData.comment || "—"}`;
 
     const telegramUrl = `https://t.me/plovovikhr_bot?text=${encodeURIComponent(message)}`;
     window.open(telegramUrl, "_blank");
@@ -78,7 +77,7 @@ const OrderForm = () => {
             Оформить <span className="golden-text">доставку</span>
           </h2>
           <p className="section-subtitle mx-auto mt-4">
-            Доставляем по пятницам и субботам. Минимальный заказ от 500 ₽.
+            Доставляем по пятницам и субботам.
           </p>
         </div>
 
@@ -96,7 +95,7 @@ const OrderForm = () => {
                 >
                   <div>
                     <span className="text-foreground font-medium">{dish.name}</span>
-                    <span className="text-primary ml-2 font-semibold">{dish.price} ₽</span>
+                    <span className="text-primary ml-2 font-semibold">{dish.price} BYN</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <button
@@ -123,7 +122,7 @@ const OrderForm = () => {
               {total > 0 && (
                 <div className="text-right pt-2">
                   <span className="text-2xl font-display font-bold golden-text">
-                    Итого: {total} ₽
+                    Итого: {total} BYN
                   </span>
                 </div>
               )}
@@ -158,32 +157,17 @@ const OrderForm = () => {
               onChange={(e) => setFormData({ ...formData, address: e.target.value })}
             />
 
-            {/* Date & Time */}
-            <div className="grid md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <label className="text-sm text-muted-foreground">День доставки</label>
-                <select
-                  className="input-field w-full"
-                  value={formData.date}
-                  onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                >
-                  <option value="friday">Пятница</option>
-                  <option value="saturday">Суббота</option>
-                </select>
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm text-muted-foreground">Время</label>
-                <select
-                  className="input-field w-full"
-                  value={formData.time}
-                  onChange={(e) => setFormData({ ...formData, time: e.target.value })}
-                >
-                  <option value="12-14">12:00 — 14:00</option>
-                  <option value="14-16">14:00 — 16:00</option>
-                  <option value="16-18">16:00 — 18:00</option>
-                  <option value="18-20">18:00 — 20:00</option>
-                </select>
-              </div>
+            {/* Date */}
+            <div className="space-y-2">
+              <label className="text-sm text-muted-foreground">День доставки</label>
+              <select
+                className="input-field w-full"
+                value={formData.date}
+                onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+              >
+                <option value="friday">Пятница</option>
+                <option value="saturday">Суббота</option>
+              </select>
             </div>
 
             <textarea

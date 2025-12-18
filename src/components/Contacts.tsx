@@ -1,4 +1,4 @@
-import { Phone, MessageCircle, MapPin, Clock } from "lucide-react";
+import { Phone, MessageCircle, MapPin } from "lucide-react";
 
 const Contacts = () => {
   return (
@@ -15,7 +15,7 @@ const Contacts = () => {
           </h2>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
           <a
             href="https://t.me/plovovikhr"
             target="_blank"
@@ -30,14 +30,14 @@ const Contacts = () => {
           </a>
 
           <a
-            href="tel:+79001234567"
+            href="tel:+375257753138"
             className="bg-card p-6 rounded-2xl border border-border/50 hover:border-primary/50 transition-all group text-center"
           >
             <div className="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/20 transition-colors">
               <Phone className="w-7 h-7 text-primary" />
             </div>
             <h3 className="font-semibold text-foreground mb-1">Телефон</h3>
-            <p className="text-muted-foreground text-sm">+7 (900) 123-45-67</p>
+            <p className="text-muted-foreground text-sm">+375 25 775 31 38</p>
           </a>
 
           <div className="bg-card p-6 rounded-2xl border border-border/50 text-center">
@@ -45,26 +45,24 @@ const Contacts = () => {
               <MapPin className="w-7 h-7 text-primary" />
             </div>
             <h3 className="font-semibold text-foreground mb-1">Доставка</h3>
-            <p className="text-muted-foreground text-sm">Москва и область</p>
-          </div>
-
-          <div className="bg-card p-6 rounded-2xl border border-border/50 text-center">
-            <div className="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Clock className="w-7 h-7 text-primary" />
-            </div>
-            <h3 className="font-semibold text-foreground mb-1">Время</h3>
-            <p className="text-muted-foreground text-sm">Пт-Сб: 12:00–20:00</p>
+            <p className="text-muted-foreground text-sm">г. Жодино</p>
           </div>
         </div>
 
-        {/* Map placeholder */}
+        {/* Map of Zhodino */}
         <div className="mt-12 max-w-4xl mx-auto">
-          <div className="bg-card rounded-2xl overflow-hidden border border-border/50 h-64 flex items-center justify-center">
-            <div className="text-center text-muted-foreground">
-              <MapPin className="w-12 h-12 mx-auto mb-2 opacity-50" />
-              <p>Карта зоны доставки</p>
-              <p className="text-sm">Москва и ближайшее Подмосковье</p>
-            </div>
+          <div className="bg-card rounded-2xl overflow-hidden border border-border/50">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d37952.54088908379!2d28.305!3d54.1!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46dbcb5c51b8e2dd%3A0x400e44f7e86f820!2z0JbQvtC00LjQvdC-!5e0!3m2!1sru!2sby!4v1700000000000!5m2!1sru!2sby"
+              width="100%"
+              height="300"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Карта г. Жодино"
+              className="grayscale hover:grayscale-0 transition-all duration-500"
+            />
           </div>
         </div>
       </div>
