@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ChevronDown, ChevronUp, Clock, BookOpen, Beaker, Flame, Droplets, Sword, Users, Map, Utensils, Crown, Heart, Sparkles } from 'lucide-react';
+import { ChevronDown, ChevronUp, Clock, BookOpen, Beaker, Flame, Droplets, Sword, Users, Map, Utensils, Crown, Heart, Sparkles, Leaf, AlertCircle, Check, X, Star, Zap } from 'lucide-react';
 
 const fullArticle = {
   title: "Почему рис в плове должен быть рассыпчатым?",
@@ -65,16 +65,73 @@ const tamerlaneArticle = {
   ps: "Говорят, тот самый казан исторический плов должен был быть настолько вкусным, что, попробовав его, даже самый уставший воин готов был снова идти в бой. Возможно, в этом и заключался секрет непобедимой армии Тамерлана.",
 };
 
-const blogPosts = [
-  {
-    id: 3,
-    title: "Зира, барбарис и секретные специи",
-    excerpt: "Полный гайд по специям для плова. Что добавлять, а что оставить в магазине.",
-    category: "Рецепты",
-    readTime: "7 мин",
-    image: "https://images.unsplash.com/photo-1532336414038-cf19250c5757?w=400&h=300&fit=crop",
-  },
-];
+const spicesArticle = {
+  title: "Зира, Барбарис и Секретные Специи",
+  subtitle: "Полный Гайд по Специям для Плова",
+  intro: "Плов — это не просто блюдо, это настоящий кулинарный ритуал. Секрет вкусного плова кроется в идеальном балансе специй, которые превращают простые ингредиенты в ароматный, насыщенный и гармоничный кулинарный шедевр.",
+  mainSpices: [
+    {
+      name: "Зира (кумин)",
+      icon: Star,
+      color: "from-amber-500 to-orange-600",
+      title: "Душа плова",
+      description: "Без зиры нет настоящего плова. Это та специя, которая делает вкус блюда глубже, придает ему характерный пряный аромат. Зира не только усиливает вкус мяса и риса, но и помогает балансировать жирность, придавая плову легкость.",
+      tips: [
+        "Добавьте зиру в начале приготовления, обжарив её с луком и мясом",
+        "Для более интенсивного аромата можно немного обжарить зиру в сухой сковороде перед добавлением"
+      ]
+    },
+    {
+      name: "Барбарис",
+      icon: Zap,
+      color: "from-red-500 to-pink-600",
+      title: "Яркая кислинка",
+      description: "Барбарис приносит свежую кислинку и легкую терпкость, делая плов более многослойным. Эта специя имеет мощный аромат, который идеально контрастирует с богатством мяса и риса. Барбарис также помогает подчеркнуть сладость моркови.",
+      tips: [
+        "Барбарис добавляют на заключительном этапе приготовления, чтобы сохранить его вкус и аромат",
+        "Если хочется усилить кислинку, можно добавить чуть больше барбариса, но не переусердствуйте"
+      ]
+    }
+  ],
+  secretSpices: [
+    {
+      name: "Шафран",
+      description: "Роскошная специя, которая добавит вашему плову неповторимый вкус и золотистый оттенок. Шафран делает плов более утонченным.",
+      icon: Crown
+    },
+    {
+      name: "Кориандр",
+      description: "Отличное дополнение к плову, особенно с бараниной. Кориандр добавляет легкую цитрусовую ноту и делает вкус более насыщенным.",
+      icon: Leaf
+    },
+    {
+      name: "Гвоздика",
+      description: "Обладает мощным ароматом. Один или два бутона гвоздики придадут вашему плову пряную глубину, но не перебьют основной вкус.",
+      icon: Sparkles
+    },
+    {
+      name: "Чеснок",
+      description: "Добавление чеснока в конце готовки делает плов более насыщенным, с легким пикантным оттенком.",
+      icon: Flame
+    }
+  ],
+  avoid: [
+    {
+      name: "Перец чили",
+      reason: "Хотя он придает блюдам остроту, в плове он не всегда уместен. Лучше использовать перец сладкий или черный молотый."
+    },
+    {
+      name: "Базилик",
+      reason: "Это хорошая специя для итальянской кухни, но для плова он будет не в своей тарелке. Его вкус слишком яркий."
+    },
+    {
+      name: "Лавровый лист",
+      reason: "Несмотря на свою универсальность, лавровый лист не является традиционной специей для плова и может добавить лишнюю горечь."
+    }
+  ],
+  balanceTips: "Главный секрет вкусного плова — это правильный баланс специй. Помните, что специи должны работать в гармонии, а не перекрывать друг друга. Начните с базовых: зира, барбарис, немного соли. Затем по желанию добавьте более экзотичные специи, такие как шафран или кориандр.",
+  conclusion: "Плов — это искусство, и специи — его кисть. Зира, барбарис и другие специи способны создать гармонию вкусов, которые будут радовать вас и ваших гостей. Идеальный плов начинается с правильных специй, а их разнообразие позволит вам создавать новые, захватывающие версии классического блюда."
+};
 
 const InfographicItem = ({ icon: Icon, label, value, color }: { icon: any; label: string; value: string; color: string }) => (
   <div className="flex flex-col items-center p-4 bg-card/50 rounded-xl border border-border/50 hover:border-primary/50 transition-all duration-300 hover:scale-105">
@@ -389,37 +446,243 @@ const TamerlaneArticle = () => {
   );
 };
 
-const BlogCard = ({ post }: { post: typeof blogPosts[0] }) => (
-  <article className="card-menu group cursor-pointer">
-    <div className="relative overflow-hidden">
-      <img
-        src={post.image}
-        alt={post.title}
-        className="w-full h-48 object-cover transition-transform duration-700 group-hover:scale-110"
-      />
-      <div className="absolute top-4 left-4">
-        <span className="bg-primary/90 text-primary-foreground px-3 py-1 rounded-full text-xs font-semibold">
-          {post.category}
-        </span>
+const SpiceCard = ({ spice, index }: { spice: typeof spicesArticle.mainSpices[0]; index: number }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  
+  return (
+    <div 
+      className="relative bg-gradient-to-br from-card to-muted/30 rounded-2xl p-6 border border-border/50 hover:border-primary/50 transition-all duration-500 hover:shadow-xl hover:shadow-primary/10 group animate-fade-in overflow-hidden"
+      style={{ animationDelay: `${index * 200}ms` }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Animated Background Gradient */}
+      <div className={`absolute inset-0 bg-gradient-to-br ${spice.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500`} />
+      
+      {/* Floating Icon */}
+      <div className={`absolute -top-3 -right-3 w-20 h-20 rounded-full bg-gradient-to-br ${spice.color} flex items-center justify-center shadow-lg transform transition-all duration-500 ${isHovered ? 'scale-110 rotate-12' : ''}`}>
+        <spice.icon className="w-10 h-10 text-white" />
+      </div>
+      
+      <div className="relative z-10">
+        <span className="text-xs font-semibold uppercase tracking-wider text-primary">{spice.name}</span>
+        <h4 className="text-xl font-display font-bold text-foreground mt-1 mb-3">{spice.title}</h4>
+        <p className="text-muted-foreground leading-relaxed mb-4">{spice.description}</p>
+        
+        {/* Tips */}
+        <div className="space-y-2">
+          <span className="text-sm font-semibold text-foreground flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-primary" /> Как использовать:
+          </span>
+          {spice.tips.map((tip, i) => (
+            <div key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+              <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+              <span>{tip}</span>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
-    
-    <div className="p-6 space-y-3">
-      <h3 className="text-xl font-display font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2">
-        {post.title}
-      </h3>
-      <p className="text-muted-foreground text-sm line-clamp-2">
-        {post.excerpt}
-      </p>
-      <div className="flex items-center justify-between pt-2">
-        <span className="text-xs text-muted-foreground">{post.readTime} чтения</span>
-        <span className="text-primary text-sm font-semibold group-hover:underline">
-          Читать →
-        </span>
-      </div>
+  );
+};
+
+const SecretSpiceItem = ({ spice, index }: { spice: typeof spicesArticle.secretSpices[0]; index: number }) => (
+  <div 
+    className="flex items-start gap-4 p-4 bg-card/50 rounded-xl border border-border/50 hover:border-primary/50 transition-all duration-300 hover:scale-[1.02] animate-fade-in"
+    style={{ animationDelay: `${index * 100}ms` }}
+  >
+    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center flex-shrink-0">
+      <spice.icon className="w-6 h-6 text-primary" />
     </div>
-  </article>
+    <div>
+      <h5 className="font-semibold text-foreground">{spice.name}</h5>
+      <p className="text-sm text-muted-foreground">{spice.description}</p>
+    </div>
+  </div>
 );
+
+const AvoidItem = ({ item, index }: { item: typeof spicesArticle.avoid[0]; index: number }) => (
+  <div 
+    className="flex items-start gap-3 p-4 bg-red-500/5 rounded-xl border border-red-500/20 animate-fade-in"
+    style={{ animationDelay: `${index * 100}ms` }}
+  >
+    <div className="w-8 h-8 rounded-full bg-red-500/20 flex items-center justify-center flex-shrink-0">
+      <X className="w-4 h-4 text-red-500" />
+    </div>
+    <div>
+      <h5 className="font-semibold text-foreground">{item.name}</h5>
+      <p className="text-sm text-muted-foreground">{item.reason}</p>
+    </div>
+  </div>
+);
+
+const SpicesArticle = () => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  return (
+    <article className="bg-gradient-to-br from-card via-card to-muted/20 rounded-2xl overflow-hidden shadow-xl border border-border/50 mb-12">
+      {/* Hero Section */}
+      <div className="relative h-64 md:h-80 overflow-hidden">
+        <img
+          src="https://images.unsplash.com/photo-1532336414038-cf19250c5757?w=1200&h=600&fit=crop"
+          alt="Специи для плова"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-card via-card/60 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-amber-500/20 to-transparent" />
+        
+        {/* Floating Spice Icons */}
+        <div className="absolute top-6 right-6 flex gap-3">
+          <div className="w-14 h-14 rounded-full bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center animate-pulse shadow-lg">
+            <Star className="w-7 h-7 text-white" />
+          </div>
+          <div className="w-14 h-14 rounded-full bg-gradient-to-br from-red-500 to-pink-600 flex items-center justify-center animate-pulse shadow-lg" style={{ animationDelay: '0.5s' }}>
+            <Zap className="w-7 h-7 text-white" />
+          </div>
+        </div>
+        
+        <div className="absolute bottom-6 left-6 right-6">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="inline-block bg-amber-500 text-white px-4 py-1 rounded-full text-sm font-semibold">
+              Рецепты
+            </span>
+            <span className="inline-block bg-primary/80 text-primary-foreground px-4 py-1 rounded-full text-sm font-semibold">
+              Гайд
+            </span>
+          </div>
+          <h3 className="text-2xl md:text-4xl font-display font-bold text-foreground mb-2">
+            {spicesArticle.title}
+          </h3>
+          <p className="text-lg text-muted-foreground max-w-2xl">
+            {spicesArticle.subtitle}
+          </p>
+          <div className="flex items-center gap-4 mt-4 text-muted-foreground text-sm">
+            <span className="flex items-center gap-1">
+              <Clock className="w-4 h-4" /> 7 мин чтения
+            </span>
+            <span className="flex items-center gap-1">
+              <Leaf className="w-4 h-4" /> Специи
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="p-6 md:p-10">
+        {/* Intro */}
+        <div className="relative mb-10">
+          <div className="absolute -left-4 top-0 w-1 h-full bg-gradient-to-b from-amber-500 via-primary to-transparent rounded-full" />
+          <p className="text-lg text-muted-foreground leading-relaxed pl-6">
+            {spicesArticle.intro} <span className="font-semibold text-foreground">Готовы раскрыть все секреты? Тогда начнем.</span>
+          </p>
+        </div>
+
+        {/* Spice Infographic */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+          <InfographicItem icon={Star} label="Зира" value="№1" color="bg-amber-500" />
+          <InfographicItem icon={Zap} label="Барбарис" value="№2" color="bg-red-500" />
+          <InfographicItem icon={Leaf} label="Секретные" value="4+" color="bg-green-600" />
+          <InfographicItem icon={AlertCircle} label="Избегать" value="3" color="bg-gray-500" />
+        </div>
+
+        {/* Main Spices Grid */}
+        <div className="mb-10">
+          <div className="flex items-center gap-3 mb-6">
+            <Star className="w-6 h-6 text-amber-500" />
+            <h4 className="text-xl font-display font-bold text-foreground">Главные специи для плова</h4>
+          </div>
+          <div className="grid md:grid-cols-2 gap-6">
+            {spicesArticle.mainSpices.map((spice, index) => (
+              <SpiceCard key={index} spice={spice} index={index} />
+            ))}
+          </div>
+        </div>
+
+        {/* Expandable Content */}
+        <div className={`space-y-8 overflow-hidden transition-all duration-700 ${isExpanded ? 'max-h-[4000px] opacity-100' : 'max-h-0 opacity-0'}`}>
+          {/* Secret Spices Section */}
+          <div className="bg-gradient-to-r from-primary/5 to-accent/5 rounded-2xl p-6 md:p-8 border border-primary/10">
+            <h4 className="font-display font-bold text-xl text-foreground mb-6 flex items-center gap-2">
+              <Sparkles className="w-5 h-5 text-primary" />
+              Секретные специи: что ещё стоит попробовать?
+            </h4>
+            <p className="text-muted-foreground leading-relaxed mb-6">
+              Теперь, когда мы разобрались с основными специями, давайте откроем несколько секретов для тех, кто хочет вывести вкус плова на новый уровень.
+            </p>
+            <div className="grid md:grid-cols-2 gap-4">
+              {spicesArticle.secretSpices.map((spice, index) => (
+                <SecretSpiceItem key={index} spice={spice} index={index} />
+              ))}
+            </div>
+          </div>
+
+          {/* What to Avoid */}
+          <div className="bg-muted/30 rounded-2xl p-6 md:p-8">
+            <h4 className="font-display font-bold text-xl text-foreground mb-4 flex items-center gap-2">
+              <AlertCircle className="w-5 h-5 text-red-500" />
+              Чего точно НЕ стоит добавлять в плов?
+            </h4>
+            <p className="text-muted-foreground leading-relaxed mb-6">
+              Несмотря на разнообразие специй, есть несколько, которые стоит избегать в плове:
+            </p>
+            <div className="space-y-3">
+              {spicesArticle.avoid.map((item, index) => (
+                <AvoidItem key={index} item={item} index={index} />
+              ))}
+            </div>
+          </div>
+
+          {/* Balance Tips */}
+          <div className="relative">
+            <div className="absolute -left-4 top-0 w-1 h-full bg-gradient-to-b from-green-500 via-primary to-transparent rounded-full" />
+            <div className="pl-6">
+              <h4 className="font-display font-bold text-xl text-foreground mb-4 flex items-center gap-2">
+                <Beaker className="w-5 h-5 text-primary" />
+                Идеальный баланс специй: как избежать ошибок?
+              </h4>
+              <p className="text-muted-foreground leading-relaxed">
+                {spicesArticle.balanceTips}
+              </p>
+            </div>
+          </div>
+
+          {/* Conclusion Box */}
+          <div className="bg-gradient-to-br from-amber-500/10 via-primary/5 to-accent/10 rounded-2xl p-6 md:p-8 border border-amber-500/20">
+            <h4 className="font-display font-bold text-lg text-foreground mb-3 flex items-center gap-2">
+              🎨 Вывод
+            </h4>
+            <p className="text-muted-foreground leading-relaxed text-lg italic">
+              {spicesArticle.conclusion}
+            </p>
+          </div>
+
+          {/* Final Note */}
+          <div className="bg-gradient-to-r from-primary/10 to-accent/10 rounded-xl p-6 border-l-4 border-primary text-center">
+            <p className="text-foreground font-semibold text-lg">
+              Порадуйте себя и своих близких настоящим пловом, который будет вкусным и незабываемым!
+            </p>
+          </div>
+        </div>
+
+        {/* Toggle Button */}
+        <button
+          onClick={() => setIsExpanded(!isExpanded)}
+          className="flex items-center gap-2 mx-auto mt-8 bg-gradient-to-r from-amber-500 to-orange-600 text-white px-8 py-3 rounded-full font-semibold hover:opacity-90 transition-all shadow-lg hover:shadow-amber-500/25 group"
+        >
+          {isExpanded ? (
+            <>
+              Свернуть гайд <ChevronUp className="w-5 h-5 group-hover:-translate-y-1 transition-transform" />
+            </>
+          ) : (
+            <>
+              Читать полный гайд <ChevronDown className="w-5 h-5 group-hover:translate-y-1 transition-transform" />
+            </>
+          )}
+        </button>
+      </div>
+    </article>
+  );
+};
 
 const Blog = () => {
   return (
@@ -443,12 +706,8 @@ const Blog = () => {
         {/* Tamerlane Legend Article */}
         <TamerlaneArticle />
 
-        {/* Other Articles Grid */}
-        <div className="grid md:grid-cols-2 gap-8">
-          {blogPosts.map((post) => (
-            <BlogCard key={post.id} post={post} />
-          ))}
-        </div>
+        {/* Spices Guide Article */}
+        <SpicesArticle />
 
         <div className="text-center mt-12">
           <button className="btn-secondary">
