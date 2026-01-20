@@ -177,9 +177,15 @@ const OrderForm = () => {
               onChange={(e) => setFormData({ ...formData, comment: e.target.value })}
             />
 
-            <button type="submit" className="btn-primary w-full text-lg">
-              Отправить заказ в Telegram
-            </button>
+            <a
+              href="https://t.me/plovovihr?start=order"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block w-full text-center text-lg py-4 px-6 rounded-xl font-semibold transition-all duration-300 hover:scale-[1.02]"
+              style={{ background: '#0088cc', color: 'white' }}
+            >
+              📱 Заказать в Telegram
+            </a>
           </div>
         </form>
       </div>
