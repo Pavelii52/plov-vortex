@@ -1,4 +1,4 @@
-import founder from "@/assets/founder.png";
+import stillLife from "@/assets/uzbek-still-life.jpg";
 
 const Story = () => {
   return (
@@ -11,8 +11,8 @@ const Story = () => {
           <div className="relative order-2 lg:order-1">
             <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-3xl blur-3xl" />
             <img
-              src={founder}
-              alt="Основатель ПловоВихрь"
+              src={stillLife}
+              alt="Узбекский натюрморт - манты, лепёшка с кебабом и зелень"
               className="relative z-10 rounded-3xl w-full max-w-md mx-auto shadow-2xl"
             />
           </div>
