@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ChevronDown, ChevronUp, Clock, BookOpen, Beaker, Flame, Droplets, Sword, Users, Map, Utensils, Crown, Heart, Sparkles, Leaf, AlertCircle, Check, X, Star, Zap } from 'lucide-react';
+import uzbekFoodStillLife from '@/assets/uzbek-food-still-life.jpg';
 
 const fullArticle = {
   title: "Почему рис в плове должен быть рассыпчатым?",
@@ -287,8 +288,8 @@ const TamerlaneArticle = () => {
       {/* Hero Section with Dramatic Overlay */}
       <div className="relative h-72 md:h-96 overflow-hidden">
         <img
-          src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=1200&h=600&fit=crop"
-          alt="Великая армия Тамерлана"
+          src={uzbekFoodStillLife}
+          alt="Узбекская кухня: манты, редька и кебаб"
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-card via-card/70 to-transparent" />
