@@ -26,7 +26,7 @@ const Contacts = () => {
               <MessageCircle className="w-7 h-7 text-primary" />
             </div>
             <h3 className="font-semibold text-foreground mb-1">Telegram</h3>
-            <p className="text-muted-foreground text-sm">@plovovikhr</p>
+            <p className="text-muted-foreground text-sm">@plovovihr</p>
           </a>
 
           <a
