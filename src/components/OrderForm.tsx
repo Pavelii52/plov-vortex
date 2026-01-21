@@ -177,15 +177,21 @@ const OrderForm = () => {
               onChange={(e) => setFormData({ ...formData, comment: e.target.value })}
             />
 
-            <a
-              href="https://t.me/Plovovihr_bot?start=order"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              type="button"
+              onClick={() => {
+                const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                if (isMobile) {
+                  window.open('https://t.me/Plovovihr_bot?start=order', '_blank');
+                } else {
+                  window.open('https://web.telegram.org/k/#@Plovovihr_bot?start=order', '_blank');
+                }
+              }}
               className="block w-full text-center text-lg py-4 px-6 rounded-xl font-semibold transition-all duration-300 hover:scale-[1.02]"
               style={{ background: '#0088cc', color: 'white' }}
             >
               📱 Заказать в Telegram
-            </a>
+            </button>
           </div>
         </form>
       </div>
