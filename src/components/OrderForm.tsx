@@ -178,7 +178,7 @@ const OrderForm = () => {
             />
 
             <a
-              href="https://t.me/plovovihr?start=order"
+              href="https://t.me/Plovovihr_bot?start=order"
               target="_blank"
               rel="noopener noreferrer"
               className="block w-full text-center text-lg py-4 px-6 rounded-xl font-semibold transition-all duration-300 hover:scale-[1.02]"
