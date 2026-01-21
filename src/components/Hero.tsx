@@ -31,7 +31,7 @@ const Hero = () => {
             </a>
           </div>
           <p className="text-sm text-foreground/70">
-            Доставка по пятницам и субботам с 12:00 до 20:00
+            Доставка по пятницам с 15:00
           </p>
         </div>
       </div>
