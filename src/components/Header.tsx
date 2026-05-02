@@ -60,8 +60,8 @@ const Header = () => {
                 {link.label}
               </a>
             ))}
-            <a href="#order" className="btn-primary text-center mt-2" onClick={() => setIsOpen(false)}>
-              Заказать
+            <a href="#recipes" className="btn-primary text-center mt-2" onClick={() => setIsOpen(false)}>
+              Рецепты
             </a>
           </div>
         </nav>
