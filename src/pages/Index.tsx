@@ -2,7 +2,7 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Story from "@/components/Story";
 import Menu from "@/components/Menu";
-import OrderForm from "@/components/OrderForm";
+import Recipes from "@/components/Recipes";
 import LeadMagnet from "@/components/LeadMagnet";
 import Blog from "@/components/Blog";
 import Contacts from "@/components/Contacts";
@@ -16,7 +16,7 @@ const Index = () => {
         <Hero />
         <Menu />
         <Story />
-        <OrderForm />
+        <Recipes />
         <LeadMagnet />
         <Blog />
         <Contacts />

@@ -8,7 +8,7 @@ const Header = () => {
   const navLinks = [
     { href: "#menu", label: "Меню" },
     { href: "#story", label: "История" },
-    { href: "#order", label: "Заказать" },
+    { href: "#recipes", label: "Рецепты" },
     { href: "#blog", label: "Блог" },
     { href: "#contacts", label: "Контакты" },
   ];
@@ -33,8 +33,8 @@ const Header = () => {
           ))}
         </nav>
 
-        <a href="#order" className="hidden md:block btn-primary text-sm py-2 px-6">
-          Заказать
+        <a href="#recipes" className="hidden md:block btn-primary text-sm py-2 px-6">
+          Рецепты
         </a>
 
         {/* Mobile Menu Button */}
@@ -60,8 +60,8 @@ const Header = () => {
                 {link.label}
               </a>
             ))}
-            <a href="#order" className="btn-primary text-center mt-2" onClick={() => setIsOpen(false)}>
-              Заказать
+            <a href="#recipes" className="btn-primary text-center mt-2" onClick={() => setIsOpen(false)}>
+              Рецепты
             </a>
           </div>
         </nav>

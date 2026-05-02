@@ -23,8 +23,8 @@ const Hero = () => {
             свежий, ароматный, с пылу с жару прямо к вашему столу.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="#order" className="btn-primary animate-pulse-glow">
-              Заказать плов
+            <a href="#recipes" className="btn-primary animate-pulse-glow">
+              Смотреть рецепты
             </a>
             <a href="/guide.pdf" download className="btn-secondary">
               Скачать гайд

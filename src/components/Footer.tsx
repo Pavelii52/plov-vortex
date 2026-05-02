@@ -16,8 +16,8 @@ const Footer = () => {
             <a href="#story" className="text-muted-foreground hover:text-primary transition-colors">
               История
             </a>
-            <a href="#order" className="text-muted-foreground hover:text-primary transition-colors">
-              Заказать
+            <a href="#recipes" className="text-muted-foreground hover:text-primary transition-colors">
+              Рецепты
             </a>
             <a href="#blog" className="text-muted-foreground hover:text-primary transition-colors">
               Блог
