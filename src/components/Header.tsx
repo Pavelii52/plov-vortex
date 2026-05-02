@@ -33,8 +33,8 @@ const Header = () => {
           ))}
         </nav>
 
-        <a href="#order" className="hidden md:block btn-primary text-sm py-2 px-6">
-          Заказать
+        <a href="#recipes" className="hidden md:block btn-primary text-sm py-2 px-6">
+          Рецепты
         </a>
 
         {/* Mobile Menu Button */}
