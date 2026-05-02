@@ -8,7 +8,7 @@ const Header = () => {
   const navLinks = [
     { href: "#menu", label: "Меню" },
     { href: "#story", label: "История" },
-    { href: "#order", label: "Заказать" },
+    { href: "#recipes", label: "Рецепты" },
     { href: "#blog", label: "Блог" },
     { href: "#contacts", label: "Контакты" },
   ];
