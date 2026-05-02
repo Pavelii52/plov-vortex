@@ -64,10 +64,10 @@ const MenuItem = ({ item }: { item: typeof menuItems[0] }) => {
         <div className="flex justify-between items-center pt-2">
           <span className="text-sm text-muted-foreground">{item.weight}</span>
           <a
-            href="#order"
+            href="#recipes"
             className="text-primary font-semibold hover:underline transition-all"
           >
-            Заказать →
+            К рецептам →
           </a>
         </div>
       </div>
