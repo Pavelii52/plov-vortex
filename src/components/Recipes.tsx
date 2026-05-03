@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { Soup, Salad, UtensilsCrossed, Flame, Cookie, CupSoda, Wheat, Clock, ChefHat, Lock, Sparkles, BookOpen, Lightbulb } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Soup, Salad, UtensilsCrossed, Flame, Cookie, CupSoda, Wheat, Clock, ChefHat, Lock, Sparkles, BookOpen, Lightbulb, LogIn, LogOut } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -9,11 +10,13 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { toast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
 import recipesData from "@/data/recipes.json";
 
 type Recipe = { ingredients: string; time: string; difficulty: string; steps?: string; tips?: string };
 const recipes = recipesData as Record<string, Recipe>;
-const RECIPE_PRICE_BYN = 4.9;
+const RECIPE_PRICE_BYN = 3.9;
 const UNLOCK_KEY = "plovovihr_unlocked_recipes";
 
 type Category = {
@@ -118,6 +121,7 @@ const parseSteps = (raw?: string): string[] => {
 };
 
 const Recipes = () => {
+  const { user, loading: authLoading } = useAuth();
   const [selected, setSelected] = useState<string | null>(null);
   const [payOpen, setPayOpen] = useState(false);
   const [showRecipe, setShowRecipe] = useState(false);
