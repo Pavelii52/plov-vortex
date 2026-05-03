@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { Soup, Salad, UtensilsCrossed, Flame, Cookie, CupSoda, Wheat, Clock, ChefHat, Lock, Sparkles, BookOpen, Lightbulb } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Soup, Salad, UtensilsCrossed, Flame, Cookie, CupSoda, Wheat, Clock, ChefHat, Lock, Sparkles, BookOpen, Lightbulb, LogIn, LogOut } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -9,11 +10,13 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { toast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
 import recipesData from "@/data/recipes.json";
 
 type Recipe = { ingredients: string; time: string; difficulty: string; steps?: string; tips?: string };
 const recipes = recipesData as Record<string, Recipe>;
-const RECIPE_PRICE_BYN = 4.9;
+const RECIPE_PRICE_BYN = 3.9;
 const UNLOCK_KEY = "plovovihr_unlocked_recipes";
 
 type Category = {
@@ -118,6 +121,7 @@ const parseSteps = (raw?: string): string[] => {
 };
 
 const Recipes = () => {
+  const { user, loading: authLoading } = useAuth();
   const [selected, setSelected] = useState<string | null>(null);
   const [payOpen, setPayOpen] = useState(false);
   const [showRecipe, setShowRecipe] = useState(false);
@@ -156,7 +160,7 @@ const Recipes = () => {
       <div className="absolute inset-0 bg-gradient-to-b from-background via-deep-brown/40 to-background" />
 
       <div className="container mx-auto px-4 relative z-10">
-        <div className="text-center mb-16">
+        <div className="text-center mb-12">
           <span className="text-primary font-semibold uppercase tracking-wider text-sm">
             Наследие узбекской кухни
           </span>
@@ -164,9 +168,41 @@ const Recipes = () => {
             Золотой фонд <span className="golden-text">рецептов</span>
           </h2>
           <p className="text-foreground/70 max-w-2xl mx-auto mt-4">
-            Нажмите на блюдо, чтобы посмотреть список ингредиентов
+            {user
+              ? "Нажмите на блюдо, чтобы посмотреть список ингредиентов"
+              : "Бесплатная регистрация открывает доступ ко всем названиям и спискам ингредиентов"}
           </p>
         </div>
+
+        {!authLoading && !user && (
+          <div className="max-w-3xl mx-auto mb-12 rounded-2xl border border-primary/40 bg-gradient-to-br from-primary/10 via-card to-card p-6 md:p-8 text-center shadow-[0_15px_40px_-15px_hsl(var(--primary)/0.5)]">
+            <div className="inline-flex items-center gap-2 bg-primary/15 px-3 py-1 rounded-full text-primary text-xs font-semibold mb-3">
+              <Sparkles className="w-3.5 h-3.5" /> Регистрация бесплатна
+            </div>
+            <h3 className="font-display text-2xl md:text-3xl text-foreground mb-2">
+              Откройте <span className="golden-text">Золотой фонд</span>
+            </h3>
+            <p className="text-foreground/70 mb-5 max-w-xl mx-auto">
+              Зарегистрируйтесь бесплатно, чтобы увидеть ингредиенты ко всем блюдам.
+              Полные пошаговые рецепты с авторскими фишками — отдельно по {RECIPE_PRICE_BYN.toFixed(2)} BYN.
+            </p>
+            <Link to="/auth" className="btn-primary inline-flex items-center gap-2">
+              <LogIn className="w-4 h-4" /> Зарегистрироваться бесплатно
+            </Link>
+          </div>
+        )}
+
+        {user && (
+          <div className="max-w-3xl mx-auto mb-10 flex items-center justify-between gap-3 text-sm text-foreground/70 px-4">
+            <span>Вы вошли как <span className="text-primary font-medium">{user.email}</span></span>
+            <button
+              onClick={() => supabase.auth.signOut()}
+              className="inline-flex items-center gap-1.5 hover:text-primary transition"
+            >
+              <LogOut className="w-4 h-4" /> Выйти
+            </button>
+          </div>
+        )}
 
         <div className="space-y-16 max-w-6xl mx-auto">
           {categories.map((cat, ci) => {
@@ -190,9 +226,18 @@ const Recipes = () => {
                       <button
                         key={name}
                         type="button"
-                        onClick={() => has && setSelected(name)}
+                        onClick={() => {
+                          if (!user) {
+                            toast({
+                              title: "Нужна бесплатная регистрация",
+                              description: "Создайте аккаунт за минуту, чтобы увидеть ингредиенты.",
+                            });
+                            return;
+                          }
+                          if (has) setSelected(name);
+                        }}
                         disabled={!has}
-                        className="group bg-card rounded-xl p-5 border border-border/50 hover:border-primary/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_-10px_hsl(var(--primary)/0.4)] animate-fade-in-up text-left disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                        className="group bg-card rounded-xl p-5 border border-border/50 hover:border-primary/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_-10px_hsl(var(--primary)/0.4)] animate-fade-in-up text-left disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer relative"
                         style={{ animationDelay: `${ci * 80 + i * 50}ms`, animationFillMode: "both" }}
                         aria-label={`Открыть рецепт: ${name}`}
                       >
@@ -200,10 +245,21 @@ const Recipes = () => {
                           <span className="text-primary font-display text-lg shrink-0">
                             {String(i + 1).padStart(2, "0")}
                           </span>
-                          <span className="text-foreground/90 font-medium group-hover:text-primary transition-colors">
+                          <span className="text-foreground/90 font-medium group-hover:text-primary transition-colors flex-1">
                             {name}
                           </span>
+                          {!user && has && (
+                            <Lock className="w-4 h-4 text-foreground/40 shrink-0 mt-1" />
+                          )}
                         </div>
+                        {!user && has && (
+                          <Link
+                            to="/auth"
+                            onClick={(e) => e.stopPropagation()}
+                            className="absolute inset-0"
+                            aria-label="Зарегистрироваться, чтобы открыть"
+                          />
+                        )}
                       </button>
                     );
                   })}
