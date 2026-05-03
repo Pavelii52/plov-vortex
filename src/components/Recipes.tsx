@@ -226,9 +226,18 @@ const Recipes = () => {
                       <button
                         key={name}
                         type="button"
-                        onClick={() => has && setSelected(name)}
+                        onClick={() => {
+                          if (!user) {
+                            toast({
+                              title: "Нужна бесплатная регистрация",
+                              description: "Создайте аккаунт за минуту, чтобы увидеть ингредиенты.",
+                            });
+                            return;
+                          }
+                          if (has) setSelected(name);
+                        }}
                         disabled={!has}
-                        className="group bg-card rounded-xl p-5 border border-border/50 hover:border-primary/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_-10px_hsl(var(--primary)/0.4)] animate-fade-in-up text-left disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                        className="group bg-card rounded-xl p-5 border border-border/50 hover:border-primary/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_-10px_hsl(var(--primary)/0.4)] animate-fade-in-up text-left disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer relative"
                         style={{ animationDelay: `${ci * 80 + i * 50}ms`, animationFillMode: "both" }}
                         aria-label={`Открыть рецепт: ${name}`}
                       >
@@ -236,10 +245,21 @@ const Recipes = () => {
                           <span className="text-primary font-display text-lg shrink-0">
                             {String(i + 1).padStart(2, "0")}
                           </span>
-                          <span className="text-foreground/90 font-medium group-hover:text-primary transition-colors">
+                          <span className="text-foreground/90 font-medium group-hover:text-primary transition-colors flex-1">
                             {name}
                           </span>
+                          {!user && has && (
+                            <Lock className="w-4 h-4 text-foreground/40 shrink-0 mt-1" />
+                          )}
                         </div>
+                        {!user && has && (
+                          <Link
+                            to="/auth"
+                            onClick={(e) => e.stopPropagation()}
+                            className="absolute inset-0"
+                            aria-label="Зарегистрироваться, чтобы открыть"
+                          />
+                        )}
                       </button>
                     );
                   })}
