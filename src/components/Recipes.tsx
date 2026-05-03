@@ -1,16 +1,20 @@
-import { useState } from "react";
-import { Soup, Salad, UtensilsCrossed, Flame, Cookie, CupSoda, Wheat, Clock, ChefHat } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Soup, Salad, UtensilsCrossed, Flame, Cookie, CupSoda, Wheat, Clock, ChefHat, Lock, Sparkles, BookOpen, Lightbulb } from "lucide-react";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogDescription,
+  DialogFooter,
 } from "@/components/ui/dialog";
+import { toast } from "@/hooks/use-toast";
 import recipesData from "@/data/recipes.json";
 
-type Recipe = { ingredients: string; time: string; difficulty: string };
+type Recipe = { ingredients: string; time: string; difficulty: string; steps?: string; tips?: string };
 const recipes = recipesData as Record<string, Recipe>;
+const RECIPE_PRICE_BYN = 4.9;
+const UNLOCK_KEY = "plovovihr_unlocked_recipes";
 
 type Category = {
   title: string;
