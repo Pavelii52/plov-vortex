@@ -1,16 +1,20 @@
-import { useState } from "react";
-import { Soup, Salad, UtensilsCrossed, Flame, Cookie, CupSoda, Wheat, Clock, ChefHat } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Soup, Salad, UtensilsCrossed, Flame, Cookie, CupSoda, Wheat, Clock, ChefHat, Lock, Sparkles, BookOpen, Lightbulb } from "lucide-react";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogDescription,
+  DialogFooter,
 } from "@/components/ui/dialog";
+import { toast } from "@/hooks/use-toast";
 import recipesData from "@/data/recipes.json";
 
-type Recipe = { ingredients: string; time: string; difficulty: string };
+type Recipe = { ingredients: string; time: string; difficulty: string; steps?: string; tips?: string };
 const recipes = recipesData as Record<string, Recipe>;
+const RECIPE_PRICE_BYN = 4.9;
+const UNLOCK_KEY = "plovovihr_unlocked_recipes";
 
 type Category = {
   title: string;
@@ -105,10 +109,47 @@ const parseIngredients = (raw: string): { section?: string; items: string[] }[] 
   return sections;
 };
 
+const parseSteps = (raw?: string): string[] => {
+  if (!raw) return [];
+  return raw
+    .split(/\n+/)
+    .map((s) => s.replace(/^\s*\d+[\.\)]\s*/, "").trim())
+    .filter(Boolean);
+};
+
 const Recipes = () => {
   const [selected, setSelected] = useState<string | null>(null);
+  const [payOpen, setPayOpen] = useState(false);
+  const [showRecipe, setShowRecipe] = useState(false);
+  const [unlocked, setUnlocked] = useState<Record<string, boolean>>({});
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(UNLOCK_KEY);
+      if (raw) setUnlocked(JSON.parse(raw));
+    } catch {}
+  }, []);
+
   const recipe = selected ? recipes[selected] : null;
   const sections = recipe ? parseIngredients(recipe.ingredients) : [];
+  const steps = parseSteps(recipe?.steps);
+  const isUnlocked = selected ? !!unlocked[selected] : false;
+
+  const handleUnlock = () => {
+    if (!selected) return;
+    // Симуляция оплаты — в реальности здесь будет интеграция с платёжной системой
+    const next = { ...unlocked, [selected]: true };
+    setUnlocked(next);
+    try {
+      localStorage.setItem(UNLOCK_KEY, JSON.stringify(next));
+    } catch {}
+    setPayOpen(false);
+    setShowRecipe(true);
+    toast({
+      title: "Доступ открыт ✨",
+      description: `Рецепт «${selected}» теперь доступен.`,
+    });
+  };
 
   return (
     <section id="recipes" className="py-24 relative">
@@ -173,7 +214,16 @@ const Recipes = () => {
         </div>
       </div>
 
-      <Dialog open={!!selected} onOpenChange={(open) => !open && setSelected(null)}>
+      {/* Ingredients dialog */}
+      <Dialog
+        open={!!selected}
+        onOpenChange={(open) => {
+          if (!open) {
+            setSelected(null);
+            setShowRecipe(false);
+          }
+        }}
+      >
         <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto bg-card border-primary/30">
           <DialogHeader>
             <DialogTitle className="text-2xl md:text-3xl font-display">
@@ -223,6 +273,123 @@ const Recipes = () => {
                   ))}
                 </div>
               </div>
+
+              {/* Премиум-кнопка: рецепт и фишки */}
+              {recipe.steps && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (isUnlocked) setShowRecipe(true);
+                    else setPayOpen(true);
+                  }}
+                  className="group relative w-full overflow-hidden rounded-xl px-6 py-4 font-display font-bold text-lg text-white shadow-[0_10px_30px_-5px_rgba(220,38,38,0.6)] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_15px_40px_-5px_rgba(220,38,38,0.8)]"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, #dc2626 0%, #ef4444 50%, #b91c1c 100%)",
+                  }}
+                >
+                  <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent group-hover:translate-x-full transition-transform duration-1000" />
+                  <span className="relative flex items-center justify-center gap-3">
+                    {isUnlocked ? (
+                      <Sparkles className="w-5 h-5 animate-pulse" />
+                    ) : (
+                      <Lock className="w-5 h-5" />
+                    )}
+                    <span>Рецепт и фишки приготовления</span>
+                    {!isUnlocked && (
+                      <span className="ml-2 px-2 py-0.5 rounded-md bg-white/20 text-sm">
+                        {RECIPE_PRICE_BYN.toFixed(2)} BYN
+                      </span>
+                    )}
+                  </span>
+                </button>
+              )}
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Paywall dialog */}
+      <Dialog open={payOpen} onOpenChange={setPayOpen}>
+        <DialogContent className="max-w-md bg-card border-red-500/40">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-display flex items-center gap-2">
+              <Lock className="w-6 h-6 text-red-500" />
+              Премиум-рецепт
+            </DialogTitle>
+            <DialogDescription>
+              Полный пошаговый рецепт «{selected}» с авторскими фишками — за {RECIPE_PRICE_BYN.toFixed(2)} BYN.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-2 text-sm text-foreground/80 py-2">
+            <p>✓ Подробные шаги приготовления</p>
+            <p>✓ Секреты и тонкости от Павла</p>
+            <p>✓ Доступ навсегда</p>
+          </div>
+          <DialogFooter className="gap-2">
+            <button
+              type="button"
+              onClick={() => setPayOpen(false)}
+              className="px-4 py-2 rounded-lg border border-border text-foreground/80 hover:bg-muted transition"
+            >
+              Отмена
+            </button>
+            <button
+              type="button"
+              onClick={handleUnlock}
+              className="px-5 py-2 rounded-lg font-semibold text-white shadow-lg transition hover:scale-105"
+              style={{ background: "linear-gradient(135deg, #dc2626, #ef4444)" }}
+            >
+              Оплатить {RECIPE_PRICE_BYN.toFixed(2)} BYN
+            </button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Full recipe (after unlock) */}
+      <Dialog open={showRecipe} onOpenChange={setShowRecipe}>
+        <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto bg-card border-primary/40">
+          <DialogHeader>
+            <DialogTitle className="text-2xl md:text-3xl font-display flex items-center gap-2">
+              <BookOpen className="w-6 h-6 text-primary" />
+              <span className="golden-text">{selected}</span>
+            </DialogTitle>
+            <DialogDescription className="sr-only">
+              Пошаговый рецепт и авторские фишки
+            </DialogDescription>
+          </DialogHeader>
+
+          {recipe && (
+            <div className="space-y-6 mt-2">
+              {steps.length > 0 && (
+                <div>
+                  <h4 className="text-lg font-display font-semibold text-foreground mb-3">
+                    Пошаговый рецепт
+                  </h4>
+                  <ol className="space-y-3">
+                    {steps.map((s, i) => (
+                      <li key={i} className="flex gap-3">
+                        <span className="shrink-0 w-7 h-7 rounded-full bg-primary/20 border border-primary/40 text-primary font-bold flex items-center justify-center text-sm">
+                          {i + 1}
+                        </span>
+                        <span className="text-foreground/85 leading-relaxed pt-0.5">{s}</span>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              )}
+
+              {recipe.tips && (
+                <div className="rounded-xl border border-primary/30 bg-primary/5 p-4">
+                  <h4 className="text-lg font-display font-semibold text-foreground mb-2 flex items-center gap-2">
+                    <Lightbulb className="w-5 h-5 text-primary" />
+                    Фишки и секреты
+                  </h4>
+                  <p className="text-foreground/85 whitespace-pre-line leading-relaxed">
+                    {recipe.tips}
+                  </p>
+                </div>
+              )}
             </div>
           )}
         </DialogContent>
