@@ -14,16 +14,82 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      video_generations: {
+        Row: {
+          created_at: string
+          ending_payload: Json | null
+          error_message: string | null
+          frame_urls: Json | null
+          id: string
+          ideas: Json | null
+          kind: Database["public"]["Enums"]["video_generation_kind"]
+          replicate_prediction_id: string | null
+          selected_frame_url: string | null
+          selected_idea: Json | null
+          status: Database["public"]["Enums"]["video_generation_status"]
+          subject_description: string | null
+          subject_title: string
+          updated_at: string
+          user_id: string
+          video_url: string | null
+        }
+        Insert: {
+          created_at?: string
+          ending_payload?: Json | null
+          error_message?: string | null
+          frame_urls?: Json | null
+          id?: string
+          ideas?: Json | null
+          kind: Database["public"]["Enums"]["video_generation_kind"]
+          replicate_prediction_id?: string | null
+          selected_frame_url?: string | null
+          selected_idea?: Json | null
+          status?: Database["public"]["Enums"]["video_generation_status"]
+          subject_description?: string | null
+          subject_title: string
+          updated_at?: string
+          user_id: string
+          video_url?: string | null
+        }
+        Update: {
+          created_at?: string
+          ending_payload?: Json | null
+          error_message?: string | null
+          frame_urls?: Json | null
+          id?: string
+          ideas?: Json | null
+          kind?: Database["public"]["Enums"]["video_generation_kind"]
+          replicate_prediction_id?: string | null
+          selected_frame_url?: string | null
+          selected_idea?: Json | null
+          status?: Database["public"]["Enums"]["video_generation_status"]
+          subject_description?: string | null
+          subject_title?: string
+          updated_at?: string
+          user_id?: string
+          video_url?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      count_user_video_generations_24h: {
+        Args: { _user_id: string }
+        Returns: number
+      }
     }
     Enums: {
-      [_ in never]: never
+      video_generation_kind: "dish" | "service"
+      video_generation_status:
+        | "draft"
+        | "generating_frames"
+        | "frames_ready"
+        | "generating_video"
+        | "completed"
+        | "failed"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +216,16 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      video_generation_kind: ["dish", "service"],
+      video_generation_status: [
+        "draft",
+        "generating_frames",
+        "frames_ready",
+        "generating_video",
+        "completed",
+        "failed",
+      ],
+    },
   },
 } as const
