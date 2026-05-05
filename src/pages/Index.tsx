@@ -3,6 +3,7 @@ import Hero from "@/components/Hero";
 import Story from "@/components/Story";
 import Menu from "@/components/Menu";
 import Recipes from "@/components/Recipes";
+import BonusBanner from "@/components/BonusBanner";
 import LeadMagnet from "@/components/LeadMagnet";
 import Blog from "@/components/Blog";
 import Contacts from "@/components/Contacts";
@@ -14,6 +15,7 @@ const Index = () => {
       <Header />
       <main>
         <Hero />
+        <BonusBanner />
         <Menu />
         <Story />
         <Recipes />
