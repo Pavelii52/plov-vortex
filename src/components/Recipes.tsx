@@ -139,10 +139,21 @@ const Recipes = () => {
   const steps = parseSteps(recipe?.steps);
   const isUnlocked = selected ? !!unlocked[selected] : false;
 
+  const categoryOf = (name: string) =>
+    categories.find((c) => c.items.includes(name));
+
   const handleUnlock = () => {
     if (!selected) return;
-    // Симуляция оплаты — в реальности здесь будет интеграция с платёжной системой
-    const next = { ...unlocked, [selected]: true };
+    const cat = categoryOf(selected);
+    const next = { ...unlocked };
+    // Разблокируем выбранный + бонусом ВСЕ рецепты этой категории
+    if (cat) {
+      cat.items.forEach((n) => {
+        if (recipes[n]) next[n] = true;
+      });
+    } else {
+      next[selected] = true;
+    }
     setUnlocked(next);
     try {
       localStorage.setItem(UNLOCK_KEY, JSON.stringify(next));
@@ -150,8 +161,10 @@ const Recipes = () => {
     setPayOpen(false);
     setShowRecipe(true);
     toast({
-      title: "Доступ открыт ✨",
-      description: `Рецепт «${selected}» теперь доступен.`,
+      title: "Доступ открыт ✨ + Бонус!",
+      description: cat
+        ? `Открыт «${selected}» и бонусом все рецепты категории «${cat.title}» — бесплатно.`
+        : `Рецепт «${selected}» теперь доступен.`,
     });
   };
 
