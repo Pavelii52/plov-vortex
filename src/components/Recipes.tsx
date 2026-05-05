@@ -398,12 +398,12 @@ const Recipes = () => {
             <p>✓ Подробные шаги приготовления</p>
             <p>✓ Секреты и тонкости от Павла</p>
             <p>✓ Доступ навсегда</p>
-            {selected && categoryOf(selected) && (
+            {selected && isQualifying(selected) && (
               <div className="mt-3 rounded-lg border border-primary/40 bg-primary/10 p-3 text-foreground">
                 <p className="font-semibold text-primary mb-1">🎁 Бонус!</p>
                 <p>
                   Покупая этот рецепт, вы автоматически и бесплатно получаете доступ ко{" "}
-                  <span className="font-semibold">всем рецептам категории «{categoryOf(selected)!.title}»</span>.
+                  <span className="font-semibold">всем «Десертам» и «Напиткам»</span>.
                 </p>
               </div>
             )}
