@@ -1,23 +1,17 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Soup, Salad, UtensilsCrossed, Flame, Cookie, CupSoda, Wheat, Clock, ChefHat, Lock, Sparkles, BookOpen, Lightbulb, LogIn, LogOut } from "lucide-react";
+import { useState } from "react";
+import { Soup, Salad, UtensilsCrossed, Flame, Cookie, CupSoda, Wheat, Clock, ChefHat, Sparkles, BookOpen, Lightbulb } from "lucide-react";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogDescription,
-  DialogFooter,
 } from "@/components/ui/dialog";
-import { toast } from "@/hooks/use-toast";
-import { useAuth } from "@/hooks/useAuth";
-import { supabase } from "@/integrations/supabase/client";
 import recipesData from "@/data/recipes.json";
 
 type Recipe = { ingredients: string; time: string; difficulty: string; steps?: string; tips?: string };
 const recipes = recipesData as Record<string, Recipe>;
-const RECIPE_PRICE_BYN = 3.9;
-const UNLOCK_KEY = "plovovihr_unlocked_recipes";
+
 
 type Category = {
   title: string;
