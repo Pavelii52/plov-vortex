@@ -134,7 +134,6 @@ const CursorTrail = () => {
           trail: true,
         });
       }
-      playBoom();
     };
 
     const handleClick = (e: MouseEvent) => {
