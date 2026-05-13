@@ -8,6 +8,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import recipesData from "@/data/recipes.json";
+import RecipeUnlockForm from "@/components/RecipeUnlockForm";
 
 type Recipe = { ingredients: string; time: string; difficulty: string; steps?: string; tips?: string };
 const recipes = recipesData as Record<string, Recipe>;
