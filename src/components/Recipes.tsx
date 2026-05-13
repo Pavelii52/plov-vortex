@@ -261,7 +261,7 @@ const Recipes = () => {
               {recipe.steps && (
                 <button
                   type="button"
-                  onClick={() => setShowRecipe(true)}
+                  onClick={handleRecipeClick}
                   className="group relative w-full overflow-hidden rounded-xl px-6 py-4 font-display font-bold text-lg text-white shadow-[0_10px_30px_-5px_hsl(var(--primary)/0.5)] transition-all duration-300 hover:scale-[1.02]"
                   style={{
                     background:
@@ -271,8 +271,8 @@ const Recipes = () => {
                   <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent group-hover:translate-x-full transition-transform duration-1000" />
                   <span className="relative flex items-center justify-center gap-3">
                     <Sparkles className="w-5 h-5 animate-pulse" />
-                    <span>Рецепт и фишки приготовления</span>
-                    <span className="ml-2 px-2 py-0.5 rounded-md bg-white/20 text-sm">Бесплатно</span>
+                    <span>{unlocked ? "Рецепт и фишки приготовления" : "Открыть рецепт и фишки"}</span>
+                    <span className="ml-2 px-2 py-0.5 rounded-md bg-white/20 text-sm">{unlocked ? "Бесплатно" : "Подписка"}</span>
                   </span>
                 </button>
               )}
