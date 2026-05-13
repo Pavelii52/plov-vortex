@@ -118,10 +118,19 @@ const parseSteps = (raw?: string): string[] => {
 const Recipes = () => {
   const [selected, setSelected] = useState<string | null>(null);
   const [showRecipe, setShowRecipe] = useState(false);
+  const [unlocked, setUnlocked] = useState<boolean>(
+    typeof window !== "undefined" && localStorage.getItem("recipes_unlocked") === "1"
+  );
+  const [showUnlock, setShowUnlock] = useState(false);
 
   const recipe = selected ? recipes[selected] : null;
   const sections = recipe ? parseIngredients(recipe.ingredients) : [];
   const steps = parseSteps(recipe?.steps);
+
+  const handleRecipeClick = () => {
+    if (unlocked) setShowRecipe(true);
+    else setShowUnlock(true);
+  };
 
   return (
     <section id="recipes" className="py-24 relative">
