@@ -157,41 +157,9 @@ const Recipes = () => {
             Золотой фонд <span className="golden-text">рецептов</span>
           </h2>
           <p className="text-foreground/70 max-w-2xl mx-auto mt-4">
-            {user
-              ? "Нажмите на блюдо, чтобы посмотреть список ингредиентов"
-              : "Бесплатная регистрация открывает доступ ко всем названиям и спискам ингредиентов"}
+            Все рецепты открыты бесплатно — нажмите на блюдо, чтобы посмотреть ингредиенты и пошаговый рецепт с авторскими фишками.
           </p>
         </div>
-
-        {!authLoading && !user && (
-          <div className="max-w-3xl mx-auto mb-12 rounded-2xl border border-primary/40 bg-gradient-to-br from-primary/10 via-card to-card p-6 md:p-8 text-center shadow-[0_15px_40px_-15px_hsl(var(--primary)/0.5)]">
-            <div className="inline-flex items-center gap-2 bg-primary/15 px-3 py-1 rounded-full text-primary text-xs font-semibold mb-3">
-              <Sparkles className="w-3.5 h-3.5" /> Регистрация бесплатна
-            </div>
-            <h3 className="font-display text-2xl md:text-3xl text-foreground mb-2">
-              Откройте <span className="golden-text">Золотой фонд</span>
-            </h3>
-            <p className="text-foreground/70 mb-5 max-w-xl mx-auto">
-              Зарегистрируйтесь бесплатно, чтобы увидеть ингредиенты ко всем блюдам.
-              Полные пошаговые рецепты с авторскими фишками — отдельно по {RECIPE_PRICE_BYN.toFixed(2)} BYN.
-            </p>
-            <Link to="/auth" className="btn-primary inline-flex items-center gap-2">
-              <LogIn className="w-4 h-4" /> Зарегистрироваться бесплатно
-            </Link>
-          </div>
-        )}
-
-        {user && (
-          <div className="max-w-3xl mx-auto mb-10 flex items-center justify-between gap-3 text-sm text-foreground/70 px-4">
-            <span>Вы вошли как <span className="text-primary font-medium">{user.email}</span></span>
-            <button
-              onClick={() => supabase.auth.signOut()}
-              className="inline-flex items-center gap-1.5 hover:text-primary transition"
-            >
-              <LogOut className="w-4 h-4" /> Выйти
-            </button>
-          </div>
-        )}
 
         <div className="space-y-16 max-w-6xl mx-auto">
           {categories.map((cat, ci) => {
