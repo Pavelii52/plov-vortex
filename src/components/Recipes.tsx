@@ -8,6 +8,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import recipesData from "@/data/recipes.json";
+import RecipeUnlockForm from "@/components/RecipeUnlockForm";
 
 type Recipe = { ingredients: string; time: string; difficulty: string; steps?: string; tips?: string };
 const recipes = recipesData as Record<string, Recipe>;
@@ -117,10 +118,19 @@ const parseSteps = (raw?: string): string[] => {
 const Recipes = () => {
   const [selected, setSelected] = useState<string | null>(null);
   const [showRecipe, setShowRecipe] = useState(false);
+  const [unlocked, setUnlocked] = useState<boolean>(
+    typeof window !== "undefined" && localStorage.getItem("recipes_unlocked") === "1"
+  );
+  const [showUnlock, setShowUnlock] = useState(false);
 
   const recipe = selected ? recipes[selected] : null;
   const sections = recipe ? parseIngredients(recipe.ingredients) : [];
   const steps = parseSteps(recipe?.steps);
+
+  const handleRecipeClick = () => {
+    if (unlocked) setShowRecipe(true);
+    else setShowUnlock(true);
+  };
 
   return (
     <section id="recipes" className="py-24 relative">
@@ -135,7 +145,9 @@ const Recipes = () => {
             Золотой фонд <span className="golden-text">рецептов</span>
           </h2>
           <p className="text-foreground/70 max-w-2xl mx-auto mt-4">
-            Все рецепты открыты бесплатно — нажмите на блюдо, чтобы посмотреть ингредиенты и пошаговый рецепт с авторскими фишками.
+            {unlocked
+              ? "Доступ открыт — нажмите на блюдо, чтобы посмотреть ингредиенты и пошаговый рецепт с авторскими фишками."
+              : "Откройте бесплатный доступ ко всем пошаговым рецептам и фишкам — оставьте имя и email."}
           </p>
         </div>
 
@@ -249,7 +261,7 @@ const Recipes = () => {
               {recipe.steps && (
                 <button
                   type="button"
-                  onClick={() => setShowRecipe(true)}
+                  onClick={handleRecipeClick}
                   className="group relative w-full overflow-hidden rounded-xl px-6 py-4 font-display font-bold text-lg text-white shadow-[0_10px_30px_-5px_hsl(var(--primary)/0.5)] transition-all duration-300 hover:scale-[1.02]"
                   style={{
                     background:
@@ -259,8 +271,8 @@ const Recipes = () => {
                   <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent group-hover:translate-x-full transition-transform duration-1000" />
                   <span className="relative flex items-center justify-center gap-3">
                     <Sparkles className="w-5 h-5 animate-pulse" />
-                    <span>Рецепт и фишки приготовления</span>
-                    <span className="ml-2 px-2 py-0.5 rounded-md bg-white/20 text-sm">Бесплатно</span>
+                    <span>{unlocked ? "Рецепт и фишки приготовления" : "Открыть рецепт и фишки"}</span>
+                    <span className="ml-2 px-2 py-0.5 rounded-md bg-white/20 text-sm">{unlocked ? "Бесплатно" : "Подписка"}</span>
                   </span>
                 </button>
               )}
@@ -315,6 +327,25 @@ const Recipes = () => {
               )}
             </div>
           )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Unlock dialog: subscription form */}
+      <Dialog open={showUnlock} onOpenChange={setShowUnlock}>
+        <DialogContent className="max-w-md bg-card border-primary/40">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-display">
+              <span className="golden-text">Откройте все рецепты</span>
+            </DialogTitle>
+            <DialogDescription className="sr-only">Форма подписки для открытия рецептов</DialogDescription>
+          </DialogHeader>
+          <RecipeUnlockForm
+            onUnlocked={() => {
+              setUnlocked(true);
+              setShowUnlock(false);
+              setShowRecipe(true);
+            }}
+          />
         </DialogContent>
       </Dialog>
     </section>
