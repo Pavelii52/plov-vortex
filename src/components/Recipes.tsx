@@ -267,84 +267,27 @@ const Recipes = () => {
                 </div>
               </div>
 
-              {/* Премиум-кнопка: рецепт и фишки */}
+              {/* Кнопка: рецепт и фишки (бесплатно) */}
               {recipe.steps && (
                 <button
                   type="button"
-                  onClick={() => {
-                    if (isUnlocked) setShowRecipe(true);
-                    else setPayOpen(true);
-                  }}
-                  className="group relative w-full overflow-hidden rounded-xl px-6 py-4 font-display font-bold text-lg text-white shadow-[0_10px_30px_-5px_rgba(220,38,38,0.6)] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_15px_40px_-5px_rgba(220,38,38,0.8)]"
+                  onClick={() => setShowRecipe(true)}
+                  className="group relative w-full overflow-hidden rounded-xl px-6 py-4 font-display font-bold text-lg text-white shadow-[0_10px_30px_-5px_hsl(var(--primary)/0.5)] transition-all duration-300 hover:scale-[1.02]"
                   style={{
                     background:
-                      "linear-gradient(135deg, #dc2626 0%, #ef4444 50%, #b91c1c 100%)",
+                      "linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary)/0.85) 100%)",
                   }}
                 >
                   <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent group-hover:translate-x-full transition-transform duration-1000" />
                   <span className="relative flex items-center justify-center gap-3">
-                    {isUnlocked ? (
-                      <Sparkles className="w-5 h-5 animate-pulse" />
-                    ) : (
-                      <Lock className="w-5 h-5" />
-                    )}
+                    <Sparkles className="w-5 h-5 animate-pulse" />
                     <span>Рецепт и фишки приготовления</span>
-                    {!isUnlocked && (
-                      <span className="ml-2 px-2 py-0.5 rounded-md bg-white/20 text-sm">
-                        {RECIPE_PRICE_BYN.toFixed(2)} BYN
-                      </span>
-                    )}
+                    <span className="ml-2 px-2 py-0.5 rounded-md bg-white/20 text-sm">Бесплатно</span>
                   </span>
                 </button>
               )}
             </div>
           )}
-        </DialogContent>
-      </Dialog>
-
-      {/* Paywall dialog */}
-      <Dialog open={payOpen} onOpenChange={setPayOpen}>
-        <DialogContent className="max-w-md bg-card border-red-500/40">
-          <DialogHeader>
-            <DialogTitle className="text-2xl font-display flex items-center gap-2">
-              <Lock className="w-6 h-6 text-red-500" />
-              Премиум-рецепт
-            </DialogTitle>
-            <DialogDescription>
-              Полный пошаговый рецепт «{selected}» с авторскими фишками — за {RECIPE_PRICE_BYN.toFixed(2)} BYN.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-2 text-sm text-foreground/80 py-2">
-            <p>✓ Подробные шаги приготовления</p>
-            <p>✓ Секреты и тонкости от Павла</p>
-            <p>✓ Доступ навсегда</p>
-            {selected && isQualifying(selected) && (
-              <div className="mt-3 rounded-lg border border-primary/40 bg-primary/10 p-3 text-foreground">
-                <p className="font-semibold text-primary mb-1">🎁 Бонус!</p>
-                <p>
-                  Покупая этот рецепт, вы автоматически и бесплатно получаете доступ ко{" "}
-                  <span className="font-semibold">всем «Десертам» и «Напиткам»</span>.
-                </p>
-              </div>
-            )}
-          </div>
-          <DialogFooter className="gap-2">
-            <button
-              type="button"
-              onClick={() => setPayOpen(false)}
-              className="px-4 py-2 rounded-lg border border-border text-foreground/80 hover:bg-muted transition"
-            >
-              Отмена
-            </button>
-            <button
-              type="button"
-              onClick={handleUnlock}
-              className="px-5 py-2 rounded-lg font-semibold text-white shadow-lg transition hover:scale-105"
-              style={{ background: "linear-gradient(135deg, #dc2626, #ef4444)" }}
-            >
-              Оплатить {RECIPE_PRICE_BYN.toFixed(2)} BYN
-            </button>
-          </DialogFooter>
         </DialogContent>
       </Dialog>
 
