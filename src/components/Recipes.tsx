@@ -329,6 +329,25 @@ const Recipes = () => {
           )}
         </DialogContent>
       </Dialog>
+
+      {/* Unlock dialog: subscription form */}
+      <Dialog open={showUnlock} onOpenChange={setShowUnlock}>
+        <DialogContent className="max-w-md bg-card border-primary/40">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-display">
+              <span className="golden-text">Откройте все рецепты</span>
+            </DialogTitle>
+            <DialogDescription className="sr-only">Форма подписки для открытия рецептов</DialogDescription>
+          </DialogHeader>
+          <RecipeUnlockForm
+            onUnlocked={() => {
+              setUnlocked(true);
+              setShowUnlock(false);
+              setShowRecipe(true);
+            }}
+          />
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
