@@ -1,23 +1,17 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Soup, Salad, UtensilsCrossed, Flame, Cookie, CupSoda, Wheat, Clock, ChefHat, Lock, Sparkles, BookOpen, Lightbulb, LogIn, LogOut } from "lucide-react";
+import { useState } from "react";
+import { Soup, Salad, UtensilsCrossed, Flame, Cookie, CupSoda, Wheat, Clock, ChefHat, Sparkles, BookOpen, Lightbulb } from "lucide-react";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogDescription,
-  DialogFooter,
 } from "@/components/ui/dialog";
-import { toast } from "@/hooks/use-toast";
-import { useAuth } from "@/hooks/useAuth";
-import { supabase } from "@/integrations/supabase/client";
 import recipesData from "@/data/recipes.json";
 
 type Recipe = { ingredients: string; time: string; difficulty: string; steps?: string; tips?: string };
 const recipes = recipesData as Record<string, Recipe>;
-const RECIPE_PRICE_BYN = 3.9;
-const UNLOCK_KEY = "plovovihr_unlocked_recipes";
+
 
 type Category = {
   title: string;
@@ -121,56 +115,12 @@ const parseSteps = (raw?: string): string[] => {
 };
 
 const Recipes = () => {
-  const { user, loading: authLoading } = useAuth();
   const [selected, setSelected] = useState<string | null>(null);
-  const [payOpen, setPayOpen] = useState(false);
   const [showRecipe, setShowRecipe] = useState(false);
-  const [unlocked, setUnlocked] = useState<Record<string, boolean>>({});
-
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem(UNLOCK_KEY);
-      if (raw) setUnlocked(JSON.parse(raw));
-    } catch {}
-  }, []);
 
   const recipe = selected ? recipes[selected] : null;
   const sections = recipe ? parseIngredients(recipe.ingredients) : [];
   const steps = parseSteps(recipe?.steps);
-  const isUnlocked = selected ? !!unlocked[selected] : false;
-
-  const categoryOf = (name: string) =>
-    categories.find((c) => c.items.includes(name));
-
-  const BONUS_CATEGORIES = ["Десерты", "Напитки"];
-  const QUALIFYING_CATEGORIES = ["Супы", "Салаты", "Плов", "Вторые блюда", "Выпечка"];
-  const isQualifying = (name: string) => {
-    const c = categoryOf(name);
-    return !!c && QUALIFYING_CATEGORIES.includes(c.title);
-  };
-
-  const handleUnlock = () => {
-    if (!selected) return;
-    const next = { ...unlocked, [selected]: true };
-    const qualifies = isQualifying(selected);
-    if (qualifies) {
-      categories
-        .filter((c) => BONUS_CATEGORIES.includes(c.title))
-        .forEach((c) => c.items.forEach((n) => { if (recipes[n]) next[n] = true; }));
-    }
-    setUnlocked(next);
-    try {
-      localStorage.setItem(UNLOCK_KEY, JSON.stringify(next));
-    } catch {}
-    setPayOpen(false);
-    setShowRecipe(true);
-    toast({
-      title: qualifies ? "Доступ открыт ✨ + Бонус!" : "Доступ открыт ✨",
-      description: qualifies
-        ? `Рецепт «${selected}» открыт. Бонусом — все «Десерты» и «Напитки» бесплатно!`
-        : `Рецепт «${selected}» теперь доступен.`,
-    });
-  };
 
   return (
     <section id="recipes" className="py-24 relative">
@@ -185,41 +135,9 @@ const Recipes = () => {
             Золотой фонд <span className="golden-text">рецептов</span>
           </h2>
           <p className="text-foreground/70 max-w-2xl mx-auto mt-4">
-            {user
-              ? "Нажмите на блюдо, чтобы посмотреть список ингредиентов"
-              : "Бесплатная регистрация открывает доступ ко всем названиям и спискам ингредиентов"}
+            Все рецепты открыты бесплатно — нажмите на блюдо, чтобы посмотреть ингредиенты и пошаговый рецепт с авторскими фишками.
           </p>
         </div>
-
-        {!authLoading && !user && (
-          <div className="max-w-3xl mx-auto mb-12 rounded-2xl border border-primary/40 bg-gradient-to-br from-primary/10 via-card to-card p-6 md:p-8 text-center shadow-[0_15px_40px_-15px_hsl(var(--primary)/0.5)]">
-            <div className="inline-flex items-center gap-2 bg-primary/15 px-3 py-1 rounded-full text-primary text-xs font-semibold mb-3">
-              <Sparkles className="w-3.5 h-3.5" /> Регистрация бесплатна
-            </div>
-            <h3 className="font-display text-2xl md:text-3xl text-foreground mb-2">
-              Откройте <span className="golden-text">Золотой фонд</span>
-            </h3>
-            <p className="text-foreground/70 mb-5 max-w-xl mx-auto">
-              Зарегистрируйтесь бесплатно, чтобы увидеть ингредиенты ко всем блюдам.
-              Полные пошаговые рецепты с авторскими фишками — отдельно по {RECIPE_PRICE_BYN.toFixed(2)} BYN.
-            </p>
-            <Link to="/auth" className="btn-primary inline-flex items-center gap-2">
-              <LogIn className="w-4 h-4" /> Зарегистрироваться бесплатно
-            </Link>
-          </div>
-        )}
-
-        {user && (
-          <div className="max-w-3xl mx-auto mb-10 flex items-center justify-between gap-3 text-sm text-foreground/70 px-4">
-            <span>Вы вошли как <span className="text-primary font-medium">{user.email}</span></span>
-            <button
-              onClick={() => supabase.auth.signOut()}
-              className="inline-flex items-center gap-1.5 hover:text-primary transition"
-            >
-              <LogOut className="w-4 h-4" /> Выйти
-            </button>
-          </div>
-        )}
 
         <div className="space-y-16 max-w-6xl mx-auto">
           {categories.map((cat, ci) => {
@@ -243,16 +161,7 @@ const Recipes = () => {
                       <button
                         key={name}
                         type="button"
-                        onClick={() => {
-                          if (!user) {
-                            toast({
-                              title: "Нужна бесплатная регистрация",
-                              description: "Создайте аккаунт за минуту, чтобы увидеть ингредиенты.",
-                            });
-                            return;
-                          }
-                          if (has) setSelected(name);
-                        }}
+                        onClick={() => { if (has) setSelected(name); }}
                         disabled={!has}
                         className="group bg-card rounded-xl p-5 border border-border/50 hover:border-primary/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_-10px_hsl(var(--primary)/0.4)] animate-fade-in-up text-left disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer relative"
                         style={{ animationDelay: `${ci * 80 + i * 50}ms`, animationFillMode: "both" }}
@@ -265,18 +174,7 @@ const Recipes = () => {
                           <span className="text-foreground/90 font-medium group-hover:text-primary transition-colors flex-1">
                             {name}
                           </span>
-                          {!user && has && (
-                            <Lock className="w-4 h-4 text-foreground/40 shrink-0 mt-1" />
-                          )}
                         </div>
-                        {!user && has && (
-                          <Link
-                            to="/auth"
-                            onClick={(e) => e.stopPropagation()}
-                            className="absolute inset-0"
-                            aria-label="Зарегистрироваться, чтобы открыть"
-                          />
-                        )}
                       </button>
                     );
                   })}
@@ -347,84 +245,27 @@ const Recipes = () => {
                 </div>
               </div>
 
-              {/* Премиум-кнопка: рецепт и фишки */}
+              {/* Кнопка: рецепт и фишки (бесплатно) */}
               {recipe.steps && (
                 <button
                   type="button"
-                  onClick={() => {
-                    if (isUnlocked) setShowRecipe(true);
-                    else setPayOpen(true);
-                  }}
-                  className="group relative w-full overflow-hidden rounded-xl px-6 py-4 font-display font-bold text-lg text-white shadow-[0_10px_30px_-5px_rgba(220,38,38,0.6)] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_15px_40px_-5px_rgba(220,38,38,0.8)]"
+                  onClick={() => setShowRecipe(true)}
+                  className="group relative w-full overflow-hidden rounded-xl px-6 py-4 font-display font-bold text-lg text-white shadow-[0_10px_30px_-5px_hsl(var(--primary)/0.5)] transition-all duration-300 hover:scale-[1.02]"
                   style={{
                     background:
-                      "linear-gradient(135deg, #dc2626 0%, #ef4444 50%, #b91c1c 100%)",
+                      "linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary)/0.85) 100%)",
                   }}
                 >
                   <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent group-hover:translate-x-full transition-transform duration-1000" />
                   <span className="relative flex items-center justify-center gap-3">
-                    {isUnlocked ? (
-                      <Sparkles className="w-5 h-5 animate-pulse" />
-                    ) : (
-                      <Lock className="w-5 h-5" />
-                    )}
+                    <Sparkles className="w-5 h-5 animate-pulse" />
                     <span>Рецепт и фишки приготовления</span>
-                    {!isUnlocked && (
-                      <span className="ml-2 px-2 py-0.5 rounded-md bg-white/20 text-sm">
-                        {RECIPE_PRICE_BYN.toFixed(2)} BYN
-                      </span>
-                    )}
+                    <span className="ml-2 px-2 py-0.5 rounded-md bg-white/20 text-sm">Бесплатно</span>
                   </span>
                 </button>
               )}
             </div>
           )}
-        </DialogContent>
-      </Dialog>
-
-      {/* Paywall dialog */}
-      <Dialog open={payOpen} onOpenChange={setPayOpen}>
-        <DialogContent className="max-w-md bg-card border-red-500/40">
-          <DialogHeader>
-            <DialogTitle className="text-2xl font-display flex items-center gap-2">
-              <Lock className="w-6 h-6 text-red-500" />
-              Премиум-рецепт
-            </DialogTitle>
-            <DialogDescription>
-              Полный пошаговый рецепт «{selected}» с авторскими фишками — за {RECIPE_PRICE_BYN.toFixed(2)} BYN.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-2 text-sm text-foreground/80 py-2">
-            <p>✓ Подробные шаги приготовления</p>
-            <p>✓ Секреты и тонкости от Павла</p>
-            <p>✓ Доступ навсегда</p>
-            {selected && isQualifying(selected) && (
-              <div className="mt-3 rounded-lg border border-primary/40 bg-primary/10 p-3 text-foreground">
-                <p className="font-semibold text-primary mb-1">🎁 Бонус!</p>
-                <p>
-                  Покупая этот рецепт, вы автоматически и бесплатно получаете доступ ко{" "}
-                  <span className="font-semibold">всем «Десертам» и «Напиткам»</span>.
-                </p>
-              </div>
-            )}
-          </div>
-          <DialogFooter className="gap-2">
-            <button
-              type="button"
-              onClick={() => setPayOpen(false)}
-              className="px-4 py-2 rounded-lg border border-border text-foreground/80 hover:bg-muted transition"
-            >
-              Отмена
-            </button>
-            <button
-              type="button"
-              onClick={handleUnlock}
-              className="px-5 py-2 rounded-lg font-semibold text-white shadow-lg transition hover:scale-105"
-              style={{ background: "linear-gradient(135deg, #dc2626, #ef4444)" }}
-            >
-              Оплатить {RECIPE_PRICE_BYN.toFixed(2)} BYN
-            </button>
-          </DialogFooter>
         </DialogContent>
       </Dialog>
 
