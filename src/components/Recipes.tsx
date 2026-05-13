@@ -137,39 +137,11 @@ const Recipes = () => {
   const recipe = selected ? recipes[selected] : null;
   const sections = recipe ? parseIngredients(recipe.ingredients) : [];
   const steps = parseSteps(recipe?.steps);
-  const isUnlocked = selected ? !!unlocked[selected] : false;
-
-  const categoryOf = (name: string) =>
-    categories.find((c) => c.items.includes(name));
-
-  const BONUS_CATEGORIES = ["Десерты", "Напитки"];
-  const QUALIFYING_CATEGORIES = ["Супы", "Салаты", "Плов", "Вторые блюда", "Выпечка"];
-  const isQualifying = (name: string) => {
-    const c = categoryOf(name);
-    return !!c && QUALIFYING_CATEGORIES.includes(c.title);
-  };
-
+  const isUnlocked = true;
+  const isQualifying = (_name: string) => false;
   const handleUnlock = () => {
-    if (!selected) return;
-    const next = { ...unlocked, [selected]: true };
-    const qualifies = isQualifying(selected);
-    if (qualifies) {
-      categories
-        .filter((c) => BONUS_CATEGORIES.includes(c.title))
-        .forEach((c) => c.items.forEach((n) => { if (recipes[n]) next[n] = true; }));
-    }
-    setUnlocked(next);
-    try {
-      localStorage.setItem(UNLOCK_KEY, JSON.stringify(next));
-    } catch {}
     setPayOpen(false);
     setShowRecipe(true);
-    toast({
-      title: qualifies ? "Доступ открыт ✨ + Бонус!" : "Доступ открыт ✨",
-      description: qualifies
-        ? `Рецепт «${selected}» открыт. Бонусом — все «Десерты» и «Напитки» бесплатно!`
-        : `Рецепт «${selected}» теперь доступен.`,
-    });
   };
 
   return (
