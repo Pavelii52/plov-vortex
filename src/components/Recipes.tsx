@@ -115,28 +115,12 @@ const parseSteps = (raw?: string): string[] => {
 };
 
 const Recipes = () => {
-  const { user, loading: authLoading } = useAuth();
   const [selected, setSelected] = useState<string | null>(null);
-  const [payOpen, setPayOpen] = useState(false);
   const [showRecipe, setShowRecipe] = useState(false);
-  const [unlocked, setUnlocked] = useState<Record<string, boolean>>({});
-
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem(UNLOCK_KEY);
-      if (raw) setUnlocked(JSON.parse(raw));
-    } catch {}
-  }, []);
 
   const recipe = selected ? recipes[selected] : null;
   const sections = recipe ? parseIngredients(recipe.ingredients) : [];
   const steps = parseSteps(recipe?.steps);
-  const isUnlocked = true;
-  const isQualifying = (_name: string) => false;
-  const handleUnlock = () => {
-    setPayOpen(false);
-    setShowRecipe(true);
-  };
 
   return (
     <section id="recipes" className="py-24 relative">
