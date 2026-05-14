@@ -18,6 +18,49 @@ const Auth = () => {
     if (user) navigate("/#recipes", { replace: true });
   }, [user, navigate]);
 
+  useEffect(() => {
+    const prevTitle = document.title;
+    document.title = "Вход в личный кабинет | ПловоВихрь";
+
+    const setMeta = (selector: string, attr: string, name: string, content: string) => {
+      let el = document.head.querySelector<HTMLMetaElement>(selector);
+      if (!el) {
+        el = document.createElement("meta");
+        el.setAttribute(attr, name);
+        document.head.appendChild(el);
+      }
+      const prev = el.getAttribute("content");
+      el.setAttribute("content", content);
+      return () => {
+        if (prev === null) el?.remove();
+        else el?.setAttribute("content", prev);
+      };
+    };
+
+    const restoreDesc = setMeta('meta[name="description"]', "name", "description", "Войдите или зарегистрируйтесь, чтобы открыть рецепты ПловоВихрь.");
+    const restoreOgTitle = setMeta('meta[property="og:title"]', "property", "og:title", "Вход в личный кабинет | ПловоВихрь");
+    const restoreOgDesc = setMeta('meta[property="og:description"]', "property", "og:description", "Войдите или зарегистрируйтесь, чтобы открыть рецепты ПловоВихрь.");
+    const restoreOgUrl = setMeta('meta[property="og:url"]', "property", "og:url", "https://plov-vortex.lovable.app/auth");
+
+    let canonical = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+    const prevCanonical = canonical?.getAttribute("href") ?? null;
+    if (!canonical) {
+      canonical = document.createElement("link");
+      canonical.setAttribute("rel", "canonical");
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute("href", "https://plov-vortex.lovable.app/auth");
+
+    return () => {
+      document.title = prevTitle;
+      restoreDesc();
+      restoreOgTitle();
+      restoreOgDesc();
+      restoreOgUrl();
+      if (prevCanonical !== null) canonical?.setAttribute("href", prevCanonical);
+    };
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
