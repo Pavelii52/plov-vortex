@@ -144,7 +144,7 @@ const Recipes = () => {
           <h2 className="section-title mt-2">
             Золотой фонд <span className="golden-text">рецептов</span>
           </h2>
-          <p className="text-foreground/70 max-w-2xl mx-auto mt-4">
+          <p className="text-foreground/90 max-w-2xl mx-auto mt-4">
             {unlocked
               ? "Доступ открыт — нажмите на блюдо, чтобы посмотреть ингредиенты и пошаговый рецепт с авторскими фишками."
               : "Откройте бесплатный доступ ко всем пошаговым рецептам и фишкам — оставьте имя и email."}
