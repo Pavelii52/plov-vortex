@@ -35,7 +35,7 @@ const Hero = () => {
               Скачать гайд
             </a>
           </div>
-          <p className="text-sm text-foreground/70">
+          <p className="text-sm text-foreground">
             Доставка по пятницам с 15:00
           </p>
         </div>
