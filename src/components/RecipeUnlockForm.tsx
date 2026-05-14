@@ -86,7 +86,7 @@ const RecipeUnlockForm = ({ onUnlocked }: Props) => {
         </span>
       </button>
 
-      <p className="text-xs text-foreground/60 text-center">
+      <p className="text-xs text-foreground/85 text-center">
         Никакого спама. Только полезные рецепты и секреты.
       </p>
     </form>

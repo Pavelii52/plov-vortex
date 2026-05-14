@@ -96,7 +96,7 @@ const Auth = () => {
   return (
     <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-gradient-to-b from-background via-deep-brown/30 to-background">
       <div className="w-full max-w-md">
-        <Link to="/" className="inline-flex items-center gap-2 text-foreground/60 hover:text-primary mb-6 transition">
+        <Link to="/" className="inline-flex items-center gap-2 text-foreground/85 hover:text-primary mb-6 transition">
           <ArrowLeft className="w-4 h-4" /> На главную
         </Link>
 
@@ -108,7 +108,7 @@ const Auth = () => {
             <h1 className="font-display text-3xl golden-text">
               {mode === "signup" ? "Создайте аккаунт" : "Вход в Золотой фонд"}
             </h1>
-            <p className="text-foreground/70 text-sm mt-2">
+            <p className="text-foreground/90 text-sm mt-2">
               Бесплатный доступ ко всем названиям блюд и спискам ингредиентов
             </p>
           </div>
@@ -124,7 +124,7 @@ const Auth = () => {
 
           <div className="flex items-center gap-3 my-5">
             <div className="flex-1 h-px bg-border" />
-            <span className="text-xs text-foreground/50">или email</span>
+            <span className="text-xs text-foreground/80">или email</span>
             <div className="flex-1 h-px bg-border" />
           </div>
 
@@ -161,7 +161,7 @@ const Auth = () => {
             </button>
           </form>
 
-          <p className="text-center text-sm text-foreground/60 mt-5">
+          <p className="text-center text-sm text-foreground/85 mt-5">
             {mode === "signup" ? "Уже есть аккаунт?" : "Нет аккаунта?"}{" "}
             <button
               onClick={() => setMode(mode === "signup" ? "signin" : "signup")}
