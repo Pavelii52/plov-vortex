@@ -3,10 +3,15 @@ import heroBg from "@/assets/hero-bg.png";
 const Hero = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-      {/* Background image */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${heroBg})` }}
+      {/* Background image (LCP) */}
+      <img
+        src={heroBg}
+        alt="Узбекский плов с дымком — фон"
+        width={1920}
+        height={1080}
+        fetchPriority="high"
+        decoding="async"
+        className="absolute inset-0 w-full h-full object-cover"
       />
       {/* Dark overlay for text readability */}
       <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/50 to-background" />
