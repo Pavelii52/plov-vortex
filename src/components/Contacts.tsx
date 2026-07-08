@@ -1,4 +1,4 @@
-import { Phone, MessageCircle, MapPin, Instagram } from "lucide-react";
+import { Phone, MapPin, Instagram } from "lucide-react";
 
 const Contacts = () => {
   return (
@@ -15,23 +15,9 @@ const Contacts = () => {
           </h2>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
+        <div className="grid sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
           <a
-            href="https://t.me/plovovikhr"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-card p-6 rounded-2xl border border-border/50 hover:border-primary/50 transition-all group text-center"
-          >
-            <div className="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/20 transition-colors">
-              <MessageCircle className="w-7 h-7 text-primary" />
-            </div>
-            <h3 className="font-semibold text-foreground mb-1">Telegram</h3>
-            <p className="text-muted-foreground text-sm">@plovovihr</p>
-          </a>
-
-          {/* TODO: replace PLACEHOLDER_HANDLE with the real Instagram username */}
-          <a
-            href="https://instagram.com/PLACEHOLDER_HANDLE"
+            href="https://instagram.com/pavel_tuzhylkin"
             target="_blank"
             rel="noopener noreferrer"
             className="bg-card p-6 rounded-2xl border border-border/50 hover:border-primary/50 transition-all group text-center"
@@ -40,7 +26,7 @@ const Contacts = () => {
               <Instagram className="w-7 h-7 text-primary" />
             </div>
             <h3 className="font-semibold text-foreground mb-1">Instagram</h3>
-            <p className="text-muted-foreground text-sm">@PLACEHOLDER_HANDLE</p>
+            <p className="text-muted-foreground text-sm">@pavel_tuzhylkin</p>
           </a>
 
           <a

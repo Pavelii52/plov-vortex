@@ -36,7 +36,7 @@ const Hero = () => {
             </a>
           </div>
           <p className="text-sm text-foreground">
-            Доставка по договорённости — уточняйте время в Telegram
+            Доставка по договорённости — уточняйте по телефону
           </p>
         </div>
       </div>

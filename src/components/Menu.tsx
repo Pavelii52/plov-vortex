@@ -52,8 +52,6 @@ const MenuItem = ({
   unlocked: boolean;
   onRequestUnlock: () => void;
 }) => {
-  const orderText = encodeURIComponent(`Здравствуйте! Хочу заказать: ${item.name}`);
-
   return (
     <div className="card-menu group">
       <div className="relative overflow-hidden">
@@ -98,12 +96,10 @@ const MenuItem = ({
           <span className="text-sm text-muted-foreground">{item.weight}</span>
           {unlocked ? (
             <a
-              href={`https://t.me/plovovihr?text=${orderText}`}
-              target="_blank"
-              rel="noopener noreferrer"
+              href="tel:+375257753138"
               className="text-primary font-semibold hover:underline transition-all"
             >
-              Заказать →
+              Заказать по телефону →
             </a>
           ) : (
             <button
