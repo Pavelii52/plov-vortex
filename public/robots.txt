@@ -13,4 +13,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://plov-vortex.lovable.app/sitemap.xml
+Sitemap: https://plov-vortex.vercel.app/sitemap.xml
