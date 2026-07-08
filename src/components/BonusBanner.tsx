@@ -18,7 +18,7 @@ const BonusBanner = () => {
                 <Sparkles className="w-3.5 h-3.5" /> Бонус для гостей
               </p>
               <h3 className="font-display text-lg md:text-xl text-foreground leading-snug">
-                Покупая любой рецепт из категорий{" "}
+                Открывая доступ к любому рецепту из категорий{" "}
                 <span className="golden-text">Супы, Салаты, Плов, Вторые блюда или Выпечка</span>
                 {" "}— получаете бонусом{" "}
                 <span className="golden-text">все Десерты и Напитки бесплатно!</span>

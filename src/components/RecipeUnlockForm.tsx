@@ -11,9 +11,15 @@ const schema = z.object({
 
 interface Props {
   onUnlocked: () => void;
+  description?: string;
+  submitLabel?: string;
 }
 
-const RecipeUnlockForm = ({ onUnlocked }: Props) => {
+const RecipeUnlockForm = ({
+  onUnlocked,
+  description = "Оставьте имя и email — и мы откроем доступ ко всем пошаговым рецептам, авторским фишкам и ценам на блюда бесплатно.",
+  submitLabel = "Открыть доступ",
+}: Props) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
@@ -44,7 +50,7 @@ const RecipeUnlockForm = ({ onUnlocked }: Props) => {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="rounded-xl border border-primary/30 bg-primary/5 p-4 text-sm text-foreground/80">
-        Оставьте имя и email — и мы откроем доступ ко всем пошаговым рецептам и авторским фишкам бесплатно.
+        {description}
       </div>
 
       <div className="relative">
@@ -82,7 +88,7 @@ const RecipeUnlockForm = ({ onUnlocked }: Props) => {
         <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent group-hover:translate-x-full transition-transform duration-1000" />
         <span className="relative flex items-center justify-center gap-2">
           <Sparkles className="w-5 h-5 animate-pulse" />
-          {loading ? "Открываем доступ..." : "Открыть рецепты"}
+          {loading ? "Открываем доступ..." : submitLabel}
         </span>
       </button>
 

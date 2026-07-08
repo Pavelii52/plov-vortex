@@ -28,7 +28,7 @@ const Footer = () => {
           </nav>
           
           <p className="text-sm text-muted-foreground">
-            © 2024 ПловоВихрь. Все права защищены.
+            © {new Date().getFullYear()} ПловоВихрь. Все права защищены.
           </p>
         </div>
       </div>

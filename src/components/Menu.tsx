@@ -1,6 +1,17 @@
+import { useState } from "react";
+import { Lock } from "lucide-react";
 import plov from "@/assets/plov.png";
 import samsa from "@/assets/samsa.jpg";
 import salad from "@/assets/salad.jpg";
+import { useUnlocked } from "@/hooks/useUnlocked";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import RecipeUnlockForm from "@/components/RecipeUnlockForm";
 
 const menuItems = [
   {
@@ -32,7 +43,17 @@ const menuItems = [
   },
 ];
 
-const MenuItem = ({ item }: { item: typeof menuItems[0] }) => {
+const MenuItem = ({
+  item,
+  unlocked,
+  onRequestUnlock,
+}: {
+  item: typeof menuItems[0];
+  unlocked: boolean;
+  onRequestUnlock: () => void;
+}) => {
+  const orderText = encodeURIComponent(`Здравствуйте! Хочу заказать: ${item.name}`);
+
   return (
     <div className="card-menu group">
       <div className="relative overflow-hidden">
@@ -50,11 +71,23 @@ const MenuItem = ({ item }: { item: typeof menuItems[0] }) => {
       </div>
       
       <div className="p-6 space-y-4">
-        <div className="flex justify-between items-start">
+        <div className="flex justify-between items-start gap-3">
           <h3 className="text-2xl font-display font-bold text-foreground group-hover:text-primary transition-colors">
             {item.name}
           </h3>
-          <span className="text-primary font-bold text-xl">{item.price}</span>
+          {unlocked ? (
+            <span className="text-primary font-bold text-xl shrink-0">{item.price}</span>
+          ) : (
+            <button
+              type="button"
+              onClick={onRequestUnlock}
+              className="flex items-center gap-1.5 text-sm font-semibold text-muted-foreground hover:text-primary transition-colors shrink-0"
+              aria-label="Открыть цену по подписке"
+            >
+              <Lock className="w-4 h-4" />
+              По подписке
+            </button>
+          )}
         </div>
         
         <p className="text-muted-foreground leading-relaxed">
@@ -63,12 +96,24 @@ const MenuItem = ({ item }: { item: typeof menuItems[0] }) => {
         
         <div className="flex justify-between items-center pt-2">
           <span className="text-sm text-muted-foreground">{item.weight}</span>
-          <a
-            href="#recipes"
-            className="text-primary font-semibold hover:underline transition-all"
-          >
-            К рецептам →
-          </a>
+          {unlocked ? (
+            <a
+              href={`https://t.me/plovovihr?text=${orderText}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary font-semibold hover:underline transition-all"
+            >
+              Заказать →
+            </a>
+          ) : (
+            <button
+              type="button"
+              onClick={onRequestUnlock}
+              className="text-primary font-semibold hover:underline transition-all"
+            >
+              Узнать цену →
+            </button>
+          )}
         </div>
       </div>
     </div>
@@ -76,6 +121,9 @@ const MenuItem = ({ item }: { item: typeof menuItems[0] }) => {
 };
 
 const Menu = () => {
+  const { unlocked, markUnlocked } = useUnlocked();
+  const [showUnlock, setShowUnlock] = useState(false);
+
   return (
     <section id="menu" className="py-24 relative">
       <div className="container mx-auto px-4">
@@ -90,14 +138,52 @@ const Menu = () => {
             Каждое блюдо готовится с душой и по традиционным рецептам. 
             Никаких полуфабрикатов — только свежие ингредиенты и огонь казана.
           </p>
+          {!unlocked && (
+            <p className="text-sm text-foreground/70 mt-3">
+              Цены доступны подписчикам —{" "}
+              <button
+                type="button"
+                onClick={() => setShowUnlock(true)}
+                className="text-primary font-semibold hover:underline"
+              >
+                открыть бесплатно
+              </button>
+            </p>
+          )}
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {menuItems.map((item) => (
-            <MenuItem key={item.id} item={item} />
+            <MenuItem
+              key={item.id}
+              item={item}
+              unlocked={unlocked}
+              onRequestUnlock={() => setShowUnlock(true)}
+            />
           ))}
         </div>
       </div>
+
+      <Dialog open={showUnlock} onOpenChange={setShowUnlock}>
+        <DialogContent className="max-w-md bg-card border-primary/40">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-display">
+              <span className="golden-text">Откройте цены и рецепты</span>
+            </DialogTitle>
+            <DialogDescription className="sr-only">
+              Форма подписки для открытия цен и рецептов
+            </DialogDescription>
+          </DialogHeader>
+          <RecipeUnlockForm
+            description="Оставьте имя и email — и мы откроем доступ к ценам на блюда, а также ко всем пошаговым рецептам и авторским фишкам бесплатно."
+            submitLabel="Открыть цены"
+            onUnlocked={() => {
+              markUnlocked();
+              setShowUnlock(false);
+            }}
+          />
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };

@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import recipesData from "@/data/recipes.json";
 import RecipeUnlockForm from "@/components/RecipeUnlockForm";
+import { useUnlocked } from "@/hooks/useUnlocked";
 
 type Recipe = { ingredients: string; time: string; difficulty: string; steps?: string; tips?: string };
 const recipes = recipesData as Record<string, Recipe>;
@@ -118,9 +119,7 @@ const parseSteps = (raw?: string): string[] => {
 const Recipes = () => {
   const [selected, setSelected] = useState<string | null>(null);
   const [showRecipe, setShowRecipe] = useState(false);
-  const [unlocked, setUnlocked] = useState<boolean>(
-    typeof window !== "undefined" && localStorage.getItem("recipes_unlocked") === "1"
-  );
+  const { unlocked, markUnlocked } = useUnlocked();
   const [showUnlock, setShowUnlock] = useState(false);
 
   const recipe = selected ? recipes[selected] : null;
@@ -341,7 +340,7 @@ const Recipes = () => {
           </DialogHeader>
           <RecipeUnlockForm
             onUnlocked={() => {
-              setUnlocked(true);
+              markUnlocked();
               setShowUnlock(false);
               setShowRecipe(true);
             }}

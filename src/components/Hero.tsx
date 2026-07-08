@@ -24,8 +24,8 @@ const Hero = () => {
             <br />с доставкой
           </h1>
           <p className="text-lg sm:text-xl text-foreground/90 max-w-xl">
-            Готовим плов по рецептам ферганских мастеров. Каждую пятницу и субботу — 
-            свежий, ароматный, с пылу с жару прямо к вашему столу.
+            Готовим плов по рецептам ферганских мастеров. Свежий, ароматный, 
+            с пылу с жару прямо к вашему столу.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a href="#recipes" className="btn-primary animate-pulse-glow">
@@ -36,7 +36,7 @@ const Hero = () => {
             </a>
           </div>
           <p className="text-sm text-foreground">
-            Доставка по пятницам с 15:00
+            Доставка по договорённости — уточняйте время в Telegram
           </p>
         </div>
       </div>
