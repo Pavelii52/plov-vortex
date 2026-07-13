@@ -17,7 +17,7 @@ interface Props {
 
 const RecipeUnlockForm = ({
   onUnlocked,
-  description = "Оставьте имя и email — и мы откроем доступ ко всем пошаговым рецептам, авторским фишкам и ценам на блюда бесплатно.",
+  description = "Оставьте имя и email — и мы откроем доступ ко всем пошаговым рецептам и авторским фишкам бесплатно.",
   submitLabel = "Открыть доступ",
 }: Props) => {
   const [name, setName] = useState("");
