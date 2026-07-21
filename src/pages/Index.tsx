@@ -8,6 +8,7 @@ import LeadMagnet from "@/components/LeadMagnet";
 import Blog from "@/components/Blog";
 import Contacts from "@/components/Contacts";
 import Footer from "@/components/Footer";
+import InteractiveKazan from "@/components/InteractiveKazan";
 
 const Index = () => {
   return (
@@ -15,6 +16,7 @@ const Index = () => {
       <Header />
       <main>
         <Hero />
+        <InteractiveKazan />
         <BonusBanner />
         <Menu />
         <Story />
