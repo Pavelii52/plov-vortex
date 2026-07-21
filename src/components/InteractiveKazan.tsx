@@ -127,7 +127,7 @@ const InteractiveKazan = () => {
     };
   }, [reducedMotion, spawnBurst]);
 
-  const handlePointer = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handlePointer = (e: React.PointerEvent<HTMLDivElement>) => {
     const canvas = canvasRef.current;
     if (!canvas || reducedMotion) return;
     const rect = canvas.getBoundingClientRect();
@@ -196,8 +196,8 @@ const InteractiveKazan = () => {
         </div>
 
         <div
-          onClick={handlePointer}
-          className="relative mx-auto max-w-2xl h-72 sm:h-80 rounded-3xl border border-primary/30 bg-gradient-to-b from-charcoal via-deep-brown to-charcoal overflow-hidden cursor-pointer select-none"
+          onPointerUp={handlePointer}
+          className="relative mx-auto max-w-2xl h-72 sm:h-80 rounded-3xl border border-primary/30 bg-gradient-to-b from-charcoal via-deep-brown to-charcoal overflow-hidden cursor-pointer select-none touch-manipulation"
           role="button"
           aria-label="Кликни, чтобы искры разлетелись"
         >
@@ -268,8 +268,8 @@ const InteractiveKazan = () => {
           </div>
           <button
             type="button"
-            onClick={stokeFire}
-            className="btn-primary"
+            onPointerUp={stokeFire}
+            className="btn-primary touch-manipulation"
           >
             {heat >= 100 ? "Огонь пылает!" : "Раздуть огонь"}
           </button>
