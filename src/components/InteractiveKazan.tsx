@@ -137,33 +137,37 @@ const InteractiveKazan = () => {
   };
 
   const stokeFire = () => {
-    if (reducedMotion) return;
     heatRef.current = Math.min(100, heatRef.current + HEAT_PER_CLICK);
     setHeat(heatRef.current);
 
-    const canvas = canvasRef.current;
-    if (canvas) {
-      const rect = canvas.getBoundingClientRect();
-      spawnBurst(
-        rect.width * 0.5 * devicePixelRatio,
-        rect.height * 0.9 * devicePixelRatio,
-        14
-      );
+    if (!reducedMotion) {
+      const canvas = canvasRef.current;
+      if (canvas) {
+        const rect = canvas.getBoundingClientRect();
+        spawnBurst(
+          rect.width * 0.5 * devicePixelRatio,
+          rect.height * 0.9 * devicePixelRatio,
+          14
+        );
+      }
     }
 
     if (heatRef.current >= 100 && !celebratedRef.current) {
       celebratedRef.current = true;
       setCelebrating(true);
-      if (canvas) {
-        const rect = canvas.getBoundingClientRect();
-        for (let i = 0; i < 6; i++) {
-          setTimeout(() => {
-            spawnBurst(
-              rect.width * Math.random() * devicePixelRatio,
-              rect.height * 0.85 * devicePixelRatio,
-              20
-            );
-          }, i * 120);
+      if (!reducedMotion) {
+        const canvas = canvasRef.current;
+        if (canvas) {
+          const rect = canvas.getBoundingClientRect();
+          for (let i = 0; i < 6; i++) {
+            setTimeout(() => {
+              spawnBurst(
+                rect.width * Math.random() * devicePixelRatio,
+                rect.height * 0.85 * devicePixelRatio,
+                20
+              );
+            }, i * 120);
+          }
         }
       }
       setTimeout(() => {
@@ -244,8 +248,8 @@ const InteractiveKazan = () => {
 
           {reducedMotion && !celebrating && (
             <p className="absolute inset-0 flex items-center justify-center text-sm text-muted-foreground px-6 text-center">
-              Анимация отключена настройками устройства — но огонь под казаном
-              всё равно горит.
+              Анимация искр отключена настройками устройства — жми кнопку ниже,
+              шкала жара всё равно работает.
             </p>
           )}
         </div>
@@ -266,7 +270,6 @@ const InteractiveKazan = () => {
             type="button"
             onClick={stokeFire}
             className="btn-primary"
-            disabled={reducedMotion}
           >
             {heat >= 100 ? "Огонь пылает!" : "Раздуть огонь"}
           </button>
