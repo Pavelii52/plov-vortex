@@ -175,7 +175,7 @@ const InteractiveKazan = () => {
         heatRef.current = 0;
         setHeat(0);
         setCelebrating(false);
-      }, 4200);
+      }, 8000);
     }
   };
 
@@ -190,8 +190,8 @@ const InteractiveKazan = () => {
             Раздуй огонь под <span className="golden-text">казаном</span>
           </h2>
           <p className="section-subtitle mx-auto mt-4">
-            Кликай по огню или жми кнопку — посмотрим, получится ли у тебя
-            развести жар, как у настоящего ошпаза.
+            Кликай по огню или жми кнопку — доведи жар до 100% и получи
+            промокод на скидку.
           </p>
         </div>
 
@@ -235,13 +235,20 @@ const InteractiveKazan = () => {
           </svg>
 
           {celebrating && (
-            <div className="absolute inset-0 flex items-center justify-center bg-background/40 backdrop-blur-sm animate-fade-in-up">
-              <p className="font-display text-xl sm:text-2xl text-center px-6">
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-background/60 backdrop-blur-sm animate-fade-in-up px-6 text-center">
+              <p className="font-display text-xl sm:text-2xl">
                 <span className="golden-text">Огонь готов! 🔥</span>
-                <br />
-                <span className="text-base sm:text-lg text-foreground/90">
-                  Настоящий жар для настоящего плова.
-                </span>
+              </p>
+              <div className="rounded-xl border-2 border-dashed border-primary/60 bg-card/80 px-6 py-3">
+                <p className="text-xs uppercase tracking-wider text-muted-foreground mb-1">
+                  Твой промокод
+                </p>
+                <p className="font-display text-2xl sm:text-3xl golden-text tracking-widest">
+                  ZIRA
+                </p>
+              </div>
+              <p className="text-sm sm:text-base text-foreground/90 max-w-xs">
+                Скидка 10% на первый заказ. Назови этот код по телефону при заказе.
               </p>
             </div>
           )}
